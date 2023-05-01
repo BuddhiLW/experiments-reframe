@@ -26,3 +26,6 @@ pom.xml.asc
 
 compiled.css
 .vercel
+.clj-kondo
+.cpcache
+.lisp
