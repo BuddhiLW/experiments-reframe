@@ -1,0 +1,11 @@
+{:deps true
+ :dev-http {8000 "public"}
+ :js-options {:js-package-dirs ["node_modules"]}
+ :builds {:app
+          {:target :browser
+           :modules {:main {:init-fn playground.core/init}}
+           :output-dir "public/js/compiled"
+           :asset-path "/js/compiled"
+           :compiler-options {:closure-defines {re-frame.trace/trace-enabled? true}}
+           :devtools {:preloads [devtools.preload
+                                 day8.re-frame-10x.preload]}}}}

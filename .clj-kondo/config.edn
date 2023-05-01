@@ -1,0 +1,3 @@
+{:linters {:single-key-in {:level :warning}
+           :unsorted-required-namespaces {:level :warning}
+           :unused-private-var {:exclude [playground.core/re-render]}}}
