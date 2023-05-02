@@ -20,12 +20,15 @@
             (clj->js
              {:palette
               {:primary
-               {:main "#27AB83"
-                :black "#AAAAAA"
+               {:main "#2AF066"
+                :black "#130905"
                 :primary "#27AB83"
                 :secondary "#F7D070"
                 :light "#D9E2EC"
-                :dark "#243B53"
+                :dark "#2F3FFF"
+                :white "#FFFAFA"
+                :form "#F8F8FF"
+                :main-background "#EFEFEF"
                 :borderRadius "20px"
                 :borderRadiusSm "10px"
                 :borderRadiusLg "18px"

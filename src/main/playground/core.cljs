@@ -3,7 +3,7 @@
    ;;--- Iniciate/mount the application ---
    [goog.dom :as gdom]
    [reagent.dom]
-   [reagent.core :as r]
+   ;; [reagent.core :as r]
    ;;--- State manager ---
    [re-frame.core :as rf]
    ;;--- main state: db ---
@@ -20,6 +20,8 @@
    [playground.auth.views.profile :refer [profile]]
    [playground.auth.views.sign-up :refer [sign-up]]
    [playground.auth.views.log-in :refer [log-in]]
+   [playground.auth.events]
+   [playground.auth.subs]
    ;--- become-a-chef ---
    [playground.become-a-chef.views.become-a-chef :refer [become-a-chef]]
    ;--- inbox ---
@@ -45,27 +47,28 @@
 
 (defn- main []
   (let [active-nav @(rf/subscribe [:active-nav])]
-    [:<>
+    [:div
      [:> mui/CssBaseline]
      [:> mui/ThemeProvider {:theme theme}
-      [:<>
-       [:> mui/Grid {:py 1
-                     :fluid "false"
-                     :display "flex"
-                     :justify-content "flex-end"
-                     :container true}
+      [:> mui/Grid {:background-color "primary.main-background"}
+       [:> mui/Box {:py 1
+                    :component "nav"
+                    :variant "dense"
+                    :fluid "false"
+                    :display "flex"
+                    :justify-content "flex-end"
+                    :container "true"}
         [:> mui/Box [nav]]]
        [pages active-nav]]]]))
 
-
 ;; -----------------------------------------------------------------------------
 ;; Mount logic
-
 (defn- render []
   (reagent.dom/render [main] (gdom/getElement "app")))
 
 (defn init
   []
+  (rf/dispatch-sync [:initialize-db])
   (render))
 
 (defn- ^:dev/after-load re-render
@@ -73,4 +76,4 @@
   shadow-cljs hot-reloads code. This function is called implicitly by its
   annotation."
   []
-  (init))
+  (render))
