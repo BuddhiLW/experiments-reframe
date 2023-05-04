@@ -15,8 +15,8 @@
                 :ml 2
                 :pb 10
                 :sx {"&:hover" {:background-color "primary.main"}
-                     :as "a"
-                     :href href}}
+                     :as "a"}
+                :href href}
      (if (= active-nav id)
        [:> Typography {:variant "h2"
                        :font-size "1.3em"

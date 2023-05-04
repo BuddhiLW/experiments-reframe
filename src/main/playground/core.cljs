@@ -31,7 +31,8 @@
    [playground.nav.events]
    [playground.nav.subs]
    ;--- recipe ---
-   [playground.recipe.views.recipes :refer [recipes]]))
+   [playground.recipe.views.recipes :refer [recipes]]
+   [playground.router :as router]))
 
 ;; ---------- END requires ---------
 (defn pages
@@ -66,8 +67,9 @@
 (defn- render []
   (reagent.dom/render [main] (gdom/getElement "app")))
 
-(defn init
+(defn ^:export init
   []
+  (router/start!)
   (rf/dispatch-sync [:initialize-db])
   (render))
 

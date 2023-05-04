@@ -18,13 +18,13 @@
       :font-weight 700
       :color "primary.black"
       :component "a"
-      :href "#sign-up"
-      :on-click #(rf/dispatch [:set-active-nav :sign-up])}
+      :href "#sign-in"
+      :on-click #(rf/dispatch [:set-active-nav :log-in])}
      "Got an accound? Log in!"]]
    [:> Grid
     [:> Button
      {:variant "contained"
-      :on-click #(rf/dispatch [:log-up @values])}
+      :on-click #(rf/dispatch [:sign-up @values])}
      "Sign up"]]])
 
 (defn sign-up

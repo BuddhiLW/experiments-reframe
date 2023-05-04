@@ -32,12 +32,34 @@
                 :borderRadius "20px"
                 :borderRadiusSm "10px"
                 :borderRadiusLg "18px"
-                :modalHeaderBorderColor "white"}}})))
+                :modalHeaderBorderColor "white"}}
+              {:secondary
+               {:main "#651fff"
+                :light "#0066ff"
+                :dark "#ff5500"
+                :contrastText "#ffcc00"}}
+              {:tertiary
+               {:main "#e91e63"}}})))
+
+(def buttons (createTheme
+              (clj->js
+               {:components
+                {:MuiButton
+                 {:styleOverrides
+                  {:root
+                   {:primary "#ff002b"
+                    :font-size "1.2rem"}}}}})))
+;; #ff00aa
+;; #00ff55
+;; #d400ff
+;; #ff002b
+;; #ff5500
+;; #aaff00
 
 (def nav (createTheme
           (clj->js
            {:palette
             {:primary
-             {:main "#001"
+             {:main "#000"
               :secondary "#FF00AA"
               :tertiary "#4433FF"}}})))

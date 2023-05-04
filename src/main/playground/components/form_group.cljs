@@ -4,7 +4,7 @@
 
 (defn form-group
   [{:keys [id label type values]}]
-  [:> FormControl {:container true
+  [:> FormControl {:container "true"
                    :class-name "grid grid-cols-1 gap-4"}
    [:> Grid
     [:> Grid {:class-name "pl-1"

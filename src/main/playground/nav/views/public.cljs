@@ -8,8 +8,7 @@
   []
   (let [active-nav @(rf/subscribe [:active-nav])
         nav-items [{:id :recipes
-                    :name "Recipes"
-                    :href "#recipes"
+                    :name "Recipes" :href "#recipes"
                     :dispatch #(rf/dispatch [:set-active-nav :recipes])}
                    {:id :become-a-chef
                     :name "Chef"

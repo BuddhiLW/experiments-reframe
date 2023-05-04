@@ -1,5 +1,7 @@
 (ns playground.db
-  (:require [re-frame.core :as rf]))
+  (:require
+   [playground.auth.events]
+   [re-frame.core :as rf]))
 
 (def initial-app-db {:auth {:uid nil}
                      :errors {}
@@ -288,7 +290,8 @@
                                                                                      :notifications 6
                                                                                      :updated-at 1538697210537}}}}})
 
-(rf/reg-event-db
+(rf/reg-event-fx
  :initialize-db
- (fn [_ _]
-   initial-app-db))
+ [(rf/inject-cofx :local-store-user)]
+ (fn [{:keys [local-store-user]} _]
+   {:db (assoc initial-app-db :auth local-store-user)}))

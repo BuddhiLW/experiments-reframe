@@ -2,6 +2,7 @@
   (:require
    ["@mui/material" :refer [Box Button Grid Typography]]
    [playground.nav.views.nav-item :refer [box]]
+   [playground.router :as router]
    [re-frame.core :as rf]))
 
 (defn authenticated
@@ -9,23 +10,24 @@
   (let [active-nav @(rf/subscribe [:active-nav])
         nav-items [{:id :saved
                     :name "Saved"
-                    :href "#saved"
+                    :href (router/path-for :saved)
                     :dispatch #(rf/dispatch [:set-active-nav :saved])}
                    {:id :recipes
                     :name "Recipes"
-                    :href "#recipes"
+                    :href (router/path-for :recipes)
                     :dispatch #(rf/dispatch [:set-active-nav :recipes])}
                    {:id :inbox
                     :name "Inbox"
-                    :href "#inbox"
+                    :href (router/path-for :inboxes)
+                    ;; => "/inbox/"
                     :dispatch #(rf/dispatch [:set-active-nav :inbox])}
                    {:id :become-a-chef
                     :name "Chef"
-                    :href "#become-a-chef"
+                    :href (router/path-for :become-a-chef)
                     :dispatch #(rf/dispatch [:set-active-nav :become-a-chef])}
                    {:id :profile
                     :name "Profile"
-                    :href "#profile"
+                    :href (router/path-for :profile)
                     :dispatch #(rf/dispatch [:set-active-nav :profile])}]]
     [:<>
      [:> Box {:display "flex"

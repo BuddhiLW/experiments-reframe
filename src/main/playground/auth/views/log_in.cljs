@@ -1,7 +1,5 @@
 (ns playground.auth.views.log-in
   (:require
-    ;; Input from '@mui/joy/Input']
-   ;; ["@mui/joy" :refer [Input]]
    ["@mui/material" :refer [Box TextField FormControl
                             Grid Typography Button Input]]
    [playground.components.form-group :refer [form-group]]
