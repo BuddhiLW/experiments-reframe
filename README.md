@@ -1,4 +1,4 @@
-# Template to create a ClojureScript + Reagent + shadow-cljs project
+# Playground for MUI, re-frame and tailwind.
 
 Studies on re-frame, MUI and tailwind.
 
