@@ -2,14 +2,14 @@
   (:require
    ;;--- Iniciate/mount the application ---
    [goog.dom :as gdom]
-   [reagent.dom]
-   ;; [reagent.core :as r]
-   ;;--- State manager ---
-   [re-frame.core :as rf]
-   ;;--- main state: db ---
-   [playground.db]
    ;;--- theming with Material-UI ---
    ["@mui/material" :as mui]
+   ;;--- main state: db ---
+   [playground.db]
+   ;;--- State manager ---
+   [re-frame.core :as rf]
+   [reagent.dom]
+   ;; [reagent.core :as r]
    [playground.theme :refer [cheffy-theme theme]]
 
    ;; -----------------------------------------
@@ -31,7 +31,7 @@
    [playground.nav.events]
    [playground.nav.subs]
    ;--- recipe ---
-   [playground.recipe.views.recipes :refer [recipes]]
+   [playground.recipe.views.recipes-page :refer [recipes-page]]
    [playground.router :as router]))
 
 ;; ---------- END requires ---------
@@ -43,11 +43,11 @@
     :log-in [log-in]
     :become-a-chef [become-a-chef]
     :inbox [inboxes]
-    :recipes [recipes]
-    [recipes]))
+    :recipes [recipes-page]
+    [recipes-page]))
 
 (defn- main []
-  (let [active-nav @(rf/subscribe [:active-nav])]
+  (let [active-page @(rf/subscribe [:active-page])]
     [:div
      [:> mui/CssBaseline]
      [:> mui/ThemeProvider {:theme theme}
@@ -60,7 +60,7 @@
                     :justify-content "flex-end"
                     :container "true"}
         [:> mui/Box [nav]]]
-       [pages active-nav]]]]))
+       [pages active-page]]]]))
 
 ;; -----------------------------------------------------------------------------
 ;; Mount logic

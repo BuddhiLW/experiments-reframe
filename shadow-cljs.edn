@@ -1,5 +1,5 @@
 {:deps true
- :dev-http {8000 "public"}
+ :dev-http {8101 "public"}
  :js-options {:js-package-dirs ["node_modules"]}
  :builds {:app
           {:target :browser

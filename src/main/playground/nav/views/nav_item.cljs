@@ -1,11 +1,11 @@
 (ns playground.nav.views.nav-item
   (:require
-   ["@mui/material" :refer [Box Button Grid Typography Tooltip
+   ["@mui/material" :refer [Button Typography Tooltip
                             ThemeProvider]]
    [playground.theme :refer [nav]]))
 
 (defn box
-  [{:keys [id name href dispatch active-nav]}]
+  [{:keys [id name href dispatch active-page]}]
   ^{:key id}
   [:> ThemeProvider {:theme nav}
    [:> Tooltip {:title (str "Hello, from " name) :follow-cursor true}
@@ -17,7 +17,7 @@
                 :sx {"&:hover" {:background-color "primary.main"}
                      :as "a"}
                 :href href}
-     (if (= active-nav id)
+     (if (= active-page id)
        [:> Typography {:variant "h2"
                        :font-size "1.3em"
                        :color "primary.secondary"

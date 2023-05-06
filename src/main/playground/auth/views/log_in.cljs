@@ -1,9 +1,9 @@
 (ns playground.auth.views.log-in
   (:require
-   ["@mui/material" :refer [Box TextField FormControl
-                            Grid Typography Button Input]]
+   ["@mui/material" :refer [Box Button Grid Typography]]
    [playground.components.form-group :refer [form-group]]
    [playground.components.page-nav :refer [page-nav]]
+   [playground.router :as router]
    [re-frame.core :as rf]
    [reagent.core :as r]))
 
@@ -18,7 +18,7 @@
       :font-weight 700
       :color "primary.black"
       :component "a"
-      :href "#sign-up"
+      :href (router/path-for :sign-up)
       :on-click #(rf/dispatch [:set-active-nav :sign-up])}
      "New to Cheffy? Create an account!"]]
    [:> Grid

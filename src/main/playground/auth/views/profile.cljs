@@ -7,7 +7,8 @@
    [playground.components.page-nav :refer [page-nav]]
    [playground.theme :refer [buttons]]
    [re-frame.core :as rf]
-   [reagent.core :as r]))
+   [reagent.core :as r]
+   [playground.router :as router]))
 
 (defn footer
   [values]
@@ -36,6 +37,7 @@
                     [:> ThemeProvider {:theme buttons}]
                     [:> Button {:variant "contained"
                                 :color "primary"
+                                ;; :href (router/routes :recipes)
                                 :on-click #(rf/dispatch [:auth/log-out])}
                      "Log out"]]}]
         [:> Grid {:justify-content "center"

@@ -1,9 +1,9 @@
 (ns playground.auth.views.sign-up
   (:require
-   ["@mui/material" :refer [Box TextField FormControl
-                            Grid Typography Button Input]]
+   ["@mui/material" :refer [Box Button Grid Typography]]
    [playground.components.form-group :refer [form-group]]
    [playground.components.page-nav :refer [page-nav]]
+   [playground.router :as router]
    [re-frame.core :as rf]
    [reagent.core :as r]))
 
@@ -18,8 +18,8 @@
       :font-weight 700
       :color "primary.black"
       :component "a"
-      :href "#sign-in"
-      :on-click #(rf/dispatch [:set-active-nav :log-in])}
+      :href (router/path-for :log-in)
+      :on-click #(rf/dispatch [:set-active-page :log-in])}
      "Got an accound? Log in!"]]
    [:> Grid
     [:> Button

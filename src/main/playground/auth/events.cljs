@@ -47,7 +47,7 @@
                                  :img "img/avatar.jpg"}
                        :saved #{}
                        :inboxes {}}))
-    :dispatch [:set-active-nav :saved]
+    :dispatch [:set-active-page :saved]
     :navigate-to {:path "/saved"}}))
 
 (reg-event-fx
@@ -66,7 +66,7 @@
        {:db (-> db
                 (assoc-in [:auth :uid] email)
                 (update :errors dissoc :email))
-        :dispatch [:set-active-nav :saved]
+        :dispatch [:set-active-page :saved]
         :navigate-to {:path "/saved"}}))))
 
 (reg-event-fx
@@ -75,8 +75,8 @@
  (fn [{:keys [db]} _]
    {:db (-> db
             (assoc-in [:auth :uid] nil))
-    :dispatch [:set-active-nav :recipes]
-    :navigate-to {:path "/recipes"}}))
+    :dispatch [:set-active-page :recipes]
+    :navigate-to {:path "/"}}))
 
 (reg-event-db
  :update/profile
@@ -92,7 +92,7 @@
      {:db (-> db
               (assoc-in [:auth :uid] nil)
               (update :users dissoc uid))
-      :dispatch [:set-active-nav :recipes]
+      :dispatch [:set-active-page :recipes]
       :navigate-to {:path "/recipes"}})))
 
 (comment

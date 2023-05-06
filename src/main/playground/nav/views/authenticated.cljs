@@ -7,7 +7,7 @@
 
 (defn authenticated
   []
-  (let [active-nav @(rf/subscribe [:active-nav])
+  (let [active-page @(rf/subscribe [:active-page])
         nav-items [{:id :saved
                     :name "Saved"
                     :href (router/path-for :saved)
@@ -39,4 +39,4 @@
               :name name
               :href href
               :dispatch dispatch
-              :active-nav active-nav}])]]))
+              :active-page active-page}])]]))

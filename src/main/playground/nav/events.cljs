@@ -19,6 +19,11 @@
  (fn [db [_ active-nav]]
    (assoc-in db [:nav :active-nav] active-nav)))
 
+(reg-event-db
+ :set-active-page
+ (fn [db [_ active-page]]
+   (assoc-in db [:nav :active-page] active-page)))
+
 (comment)
  ;; (rf/dispatch [:set-active-nav :id-nav]))
  ;; (fn [db [a b]]) -> (a <-> :set-active-nav) ^ (b <-> :id-nav))
