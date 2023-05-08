@@ -58,7 +58,6 @@
         {:keys [uid saved]} @(rf/subscribe [:recipes/user])
         logged-in? @(rf/subscribe [:logged-in?])
         saved? (contains? saved id)
-        ;; author? (= uid cook)
         author? @(rf/subscribe [:recipes/author?])
         can-save? (and logged-in? (not author?) (not saved?))]
     [:> Grid {:px 2
