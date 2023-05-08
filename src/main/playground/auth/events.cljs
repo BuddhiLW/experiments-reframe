@@ -73,8 +73,7 @@
  :auth/log-out
  remove-user-interceptors
  (fn [{:keys [db]} _]
-   {:db (-> db
-            (assoc-in [:auth :uid] nil))
+   {:db (assoc-in db [:auth :uid] nil)
     :dispatch [:set-active-page :recipes]
     :navigate-to {:path "/"}}))
 

@@ -30,9 +30,13 @@
    [playground.nav.views.nav :refer [nav]]
    [playground.nav.events]
    [playground.nav.subs]
-   ;--- recipe ---
-   [playground.recipe.views.recipes-page :refer [recipes-page]]
-   [playground.router :as router]))
+   ;--- recipes ---
+   [playground.recipes.views.recipes-page :refer [recipes-page]]
+   [playground.recipes.views.recipe-page :refer [recipe-page]]
+   [playground.router :as router]
+   [playground.recipes.events]
+   ;; [playground.recipes.views.subs]))
+   [playground.recipes.subs]))
 
 ;; ---------- END requires ---------
 (defn pages
@@ -44,6 +48,7 @@
     :become-a-chef [become-a-chef]
     :inbox [inboxes]
     :recipes [recipes-page]
+    :recipe [recipe-page]
     [recipes-page]))
 
 (defn- main []
@@ -79,3 +84,4 @@
   annotation."
   []
   (render))
+

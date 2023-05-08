@@ -8,7 +8,13 @@
    (boolean (get-in db [:auth :uid]))))
 
 (rf/reg-sub
- :auth/active-user-profile
+ :auth/user-profile
  (fn [db _]
    (let [uid (get-in db [:auth :uid])]
      (get-in db [:users uid :profile]))))
+
+(rf/reg-sub
+ :recipes/user
+ (fn [db _]
+   (let [uid (get-in db [:auth :uid])]
+     (get-in db [:users uid]))))

@@ -8,4 +8,8 @@
            :asset-path "/js/compiled"
            :compiler-options {:closure-defines {re-frame.trace/trace-enabled? true}}
            :devtools {:preloads [devtools.preload
-                                 day8.re-frame-10x.preload]}}}}
+                                 re-frame-flow.preload
+                                 day8.re-frame-10x.preload]
+                      :external-config {:devtools/config {:features-to-install    [:formatters :hints]
+                                                          :fn-symbol              "F"
+                                                          :print-config-overrides true}}}}}}

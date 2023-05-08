@@ -1,6 +1,7 @@
 (ns playground.theme
   (:require
-   ["@mui/material/styles" :refer [createTheme]]
+   ["@mui/material/styles" :refer [createTheme
+                                   createMuiTheme]]
    ["react-bootstrap" :as bt]))
 
 (def cheffy-theme
@@ -39,7 +40,11 @@
                 :dark "#ff5500"
                 :contrastText "#ffcc00"}}
               {:tertiary
-               {:main "#e91e63"}}})))
+               {:main "#e91e63"}}
+              {:card-title
+               {:main "#FFEFEF"}}
+              {:card-title
+               {:main "#FFEFEF"}}})))
 
 (def buttons (createTheme
               (clj->js
@@ -63,3 +68,7 @@
              {:main "#000"
               :secondary "#FF00AA"
               :tertiary "#4433FF"}}})))
+
+(def cards (createTheme
+             #js {:title #js {:main "#3A3F3F"}
+                  :icon #js {:main "#ABCDEF"}}))

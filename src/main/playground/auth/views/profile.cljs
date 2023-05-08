@@ -25,7 +25,7 @@
 
 (defn profile
   []
-  (let [{:keys [first-name last-name]} @(rf/subscribe [:auth/active-user-profile])
+  (let [{:keys [first-name last-name]} @(rf/subscribe [:auth/user-profile])
         initial-values {:first-name first-name :last-name last-name}
         values (r/atom initial-values)]
     (fn []
