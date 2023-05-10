@@ -6,6 +6,7 @@
    ["@mui/material" :refer [Grid Paper Typography Card CardMedia CssBaseline Box Grid Paper Typography Card CardMedia CardContent CardActions IconButton]]
    ["@mui/material/styles" :refer [ThemeProvider]]
    [playground.recipes.events]
+   [playground.recipes.views.recipe-ingredients :refer [ingredients]]
    [playground.recipes.views.recipe-image :refer [recipe-img]]
    [playground.theme :refer [cards]]
    [re-frame.core :as rf]))
@@ -58,13 +59,18 @@
         {:keys [uid saved]} @(rf/subscribe [:recipes/user])
         logged-in? @(rf/subscribe [:logged-in?])
         saved? (contains? saved id)
-        author? @(rf/subscribe [:recipes/author?])
+        author? @(rf/subscribe [:recipe/author?])
         can-save? (and logged-in? (not author?) (not saved?))]
     [:> Grid {:px 2
               :pt 4}
      [:> Paper {:pb 4
                 :sx {:box-shadow 3}
-                :class-name (when author? "transition hover:shadow-2xl hover:drop-shadow-2xl hover:-translate-y-1 ease-in-out delay-150 duration-500")}
+                ;; :class-name "flex-nowrap"
+                :flex-direction "column"
+                :class-name (when author?
+                              (str "transition hover:shadow-2xl hover:drop-shadow-2xl hover:-translate-y-1 ease-in-out delay-150 duration-500" "flex-wrap")
+                              "flex-wrap")}
+
       [:> CssBaseline]
       [:> ThemeProvider {:theme cards}
        [:> Grid {:item true :xs 12}
@@ -77,4 +83,5 @@
                          :class-name "text-3xl decoration-2 text-slate-700"}
           cook]]]
        [recipe-img]
-       [footer can-save? saved? prep-time saved-count id]]]]))
+       [footer can-save? saved? prep-time saved-count id]]]
+     [ingredients]]))

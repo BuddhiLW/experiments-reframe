@@ -13,11 +13,9 @@
         {:keys [name steps ingredients price prep-time img saved-count cook]} recipe]
     [:<>
      [page-nav {:center (str name)}]
-     [:> Grid {:container true}
-      [:> Grid {:container true
-                :flex-direction "row"
-                :justify-content "space-around"
-                :spacing 2
-                :px 2}
-       [recipe-info]
-       [recipe-steps]]]]))
+     [:> Grid {:container true
+               :direction "row"
+               :justify-content "space-around"
+               :px 2}
+      [recipe-info]
+      [recipe-steps]]]))

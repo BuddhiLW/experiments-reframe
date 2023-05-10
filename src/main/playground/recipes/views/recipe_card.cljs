@@ -1,11 +1,7 @@
 (ns playground.recipes.views.recipe-card
   (:require
-;; import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
    ["@mui/icons-material/AccessAlarm" :default AccessAlarm]
-   ;; ["@mui/icons-material/FavoriteBorderOutlined" :default FavoriteBorderOutlined]
    ["@mui/icons-material/FavoriteOutlined" :default FavoriteOutlined]
-   #_["@mui/icons-material" :refer [DeleteOutlined EditOutlined FavoriteOutlined FavoriteBorderOutlined
-                                    ShareOutlined StarOutlined StarBorderOutlined StarBorderRounded StarRounded]]
    ["@mui/material" :refer [Grid Paper Typography Card CardMedia CssBaseline]]
    ["@mui/material/styles" :refer [ThemeProvider]]
    [playground.router :as router]

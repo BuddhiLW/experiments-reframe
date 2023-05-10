@@ -17,5 +17,7 @@
                         (id values)
                         (id @values))
                :type type
-               :on-change #(swap! values assoc id (.. % -target -value))
+               :on-change #(do
+                             (js/console.log @values)
+                             (swap! values assoc id (.. % -target -value)))
                :full-width true}]]])

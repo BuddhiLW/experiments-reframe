@@ -33,7 +33,8 @@
                    :variant "light"
                    :aria-label "Back"}
         [:> AdjustIcon {:sx {:font-size "2.5em"}}]])]
-    [:> Box {:justify-content "center"}
+    [:> Box {:justify-content "center"
+             :pb 10}
      [:> Typography {:variant "div"
                      :color "inherit"
                      :py 20
