@@ -62,10 +62,20 @@
           saved? (contains? saved id)
           author? @(rf/subscribe [:recipe/author?])
           can-save? (and logged-in? (not author?) (not saved?))]
-      [:> Grid {:px 2
-                :pt 4}
+      [:> Grid {:item true}
+                ;; :xs 6
+                ;; :sm 6
+                ;; :md 6
+                ;; :lg 5
+                ;; :xl 4}
+
+                ;; :px 2
+                ;; :pt 4}
        [:> Paper {:pb 4
-                  :sx {:box-shadow 3}
+                  :sx {:box-shadow 3
+                       :max-width 600}
+                       ;; :min-width 600}
+
                   :direction "column"
                   :class-name (when author?
                                 (str "transition hover:shadow-2xl hover:drop-shadow-2xl hover:-translate-y-1 ease-in-out delay-150 duration-500" "flex-wrap")

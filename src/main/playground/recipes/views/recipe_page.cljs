@@ -30,8 +30,18 @@
                                               :font-weight 700}
                                name]))}]
        [:> Grid {:container true
-                 :direction "row"
-                 :justify-content "space-around"
+                 :columns {:xs 6
+                           :sm 7
+                           :md 12}
+                 :spacing {:md 1}
+                 :direction {:sx "column"
+                             :xs "column"
+                             :sm "column"
+                             :md "row"}
+                 :justify-content {:sx "center"
+                                   :xs "center"
+                                   :sm "center"
+                                   :md "space-evenly"}
                  :px 2}
         [recipe-info]
         [recipe-steps]]])))
