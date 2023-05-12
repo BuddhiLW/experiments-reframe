@@ -75,9 +75,8 @@
                       :box-shadow 10
                       :bgcolor (get-in (js->clj colors :keywordize-keys true) [:grey :100])
                       :justify-content "space-between"}}
-        [:> Grid {:container true
+        [:> Grid {:item true
                   :px 2
-                  ;; :xs 6
                   :direction "column"
                   :sx {:justify-content "space-between"}}
          [:> Grid {:item true}

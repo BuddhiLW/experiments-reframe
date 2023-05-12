@@ -56,25 +56,16 @@
 (defn recipe-info
   []
   (fn []
-    (let [{:keys [id cook saved-count prep-time]} @(rf/subscribe [:recipes/recipe])
-          {:keys [uid saved]} @(rf/subscribe [:recipes/user])
+    (let [{:keys [id cook]} @(rf/subscribe [:recipes/recipe])
+          {:keys [saved]} @(rf/subscribe [:recipes/user])
           logged-in? @(rf/subscribe [:logged-in?])
           saved? (contains? saved id)
           author? @(rf/subscribe [:recipe/author?])
           can-save? (and logged-in? (not author?) (not saved?))]
       [:> Grid {:item true}
-                ;; :xs 6
-                ;; :sm 6
-                ;; :md 6
-                ;; :lg 5
-                ;; :xl 4}
-
-                ;; :px 2
-                ;; :pt 4}
        [:> Paper {:pb 4
                   :sx {:box-shadow 3
                        :max-width 600}
-                       ;; :min-width 600}
 
                   :direction "column"
                   :class-name (when author?

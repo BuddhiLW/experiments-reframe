@@ -85,7 +85,7 @@
                     :sx {:min-width "100%"}}
           [:> Grid {:container true
                      ;; :xs 12
-                    :direction "row"
+                    ;; :direction "row"
                     :align-items "center"}
            [:> Grid {:item true
                      :xs (if author? 11 12)
@@ -120,7 +120,7 @@
               (when author?
                 [:> Grid {:item true
                           :display "flex"
-                          :direction "row"
+                          ;; :direction "row"
                           :sx {:justify-content "flex-end"}
                           :pr 4
                           :xs 1}
