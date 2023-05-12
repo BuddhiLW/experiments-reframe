@@ -8,9 +8,6 @@
   [{:keys [modal-key body footer title]}]
   (fn []
     (let [active-modal @(rf/subscribe [:recipes/active-modal])]
-      (js/console.log "active-modal" @(rf/subscribe [:recipes/active-modal]))
-      (js/console.log "active-modal" active-modal)
-      (js/console.log "modal-key" modal-key)
       [:> Modal {:open (= active-modal modal-key)
                  :on-close #(rf/dispatch [:recipes/close-modal])}
        [:<>
@@ -23,6 +20,7 @@
                   :width 800
                   :bgcolor (get-in (js->clj colors :keywordize-keys true) [:indigo :50])}}
          [:> Typography {:p 2
+                         :pt 4
                          :variant "h4"
                          :align "center"
                          :font-weight 500

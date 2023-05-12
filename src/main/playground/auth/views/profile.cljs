@@ -31,15 +31,21 @@
     (fn []
       [:<>
        [:> Box {:justify-content "center"}
-        [page-nav {:center "Log in"
+        [page-nav {:center
+                   "Log in"
                    :right
                    [:<>
                     [:> ThemeProvider {:theme buttons}]
-                    [:> Button {:variant "contained"
-                                :color "primary"
-                                ;; :href (router/routes :recipes)
-                                :on-click #(rf/dispatch [:auth/log-out])}
-                     "Log out"]]}]
+                    [:> Grid {:sx {:justify-content "center"
+                                   :align-items "center"
+                                   :align-self "center"}
+                              :item true
+                              :pt 1}
+                     [:> Button {:variant "contained"
+                                 :color "primary"
+                                  ;; :href (router/routes :recipes)
+                                 :on-click #(rf/dispatch [:auth/log-out])}
+                      "Log out"]]]}]
         [:> Grid {:justify-content "center"
                   :direction "column"
                   :align-items "center"

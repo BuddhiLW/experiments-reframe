@@ -62,62 +62,10 @@
                          :on-click #(save @values)}
               "Save"]])}])
 
-#_(defn ingredient-modal
-    [{:keys [values save id]}]
-    [modal {:modal-key (keyword (str "edit-ingredient" "-" id))
-            :title "Edit ingredient"
-            :body [:> Grid {:p 5
-                            :align-items "center"}
-                   [:> FormControl
-                    {:component "fieldset"
-                     :variant "standard"
-                     :fullWidth true
-                     :margin "normal"
-                     :size "small"}
-                    [form-group {:id :name
-                                 :label "Name"
-                                 :type "text"
-                                 :values values}]
-                    [form-group {:id :amount
-                                 :label "Amount"
-                                 :type "number"
-                                 :values values}]
-                    [form-group {:id :measure
-                                 :label "Measure"
-                                 :type "text"
-                                 :values values}]]]
-            :footer (fn []
-                      [:> Grid {:display "flex"
-                                :flex-direction "row"
-                                :justify-content "space-between"
-                                :px 5
-                                :py 3
-                                :sx {:border-radius "18px"}
-                                :box-shadow 10
-                                :bgcolor (get-in (js->clj colors :keywordize-keys true) [:grey :100])}
-                       [:> Button {:variant "contained"
-                                   :color "warning"
-                                   :on-click #(when (js/confirm "Are you sure?")
-                                                (rf/dispatch [:recipe/delete-ingredient (:id values)]))}
-                        "Delete"]
-                       [:> Button {:variant "contained"
-                                   :color "warning"
-                                   :on-click (fn []
-                                               (rf/dispatch [:recipes/close-modal]))}
-
-                        "Cancel"]
-                       [:> Button {:variant "contained"
-                                   :color "primary"
-                                   :on-click #(do
-                                                (js/console.log @values)
-                                                (save values))}
-                        "Save"]])}])
-
 (defn ingredient-comp
   [{:keys [id name amount measure] :as ingredient} open-modal]
   (fn []
-    (let [update-ingredient (fn [values] (rf/dispatch [:recipe/update-ingredient @values]))
-          author? @(rf/subscribe [:recipe/author?])]
+    (let [author? @(rf/subscribe [:recipe/author?])]
       [:<>
        [:> Grid {:container true
                  :p 2
@@ -129,7 +77,7 @@
                       :justify-content "space-between"}}
         [:> Grid {:container true
                   :px 2
-                  :xs 6
+                  ;; :xs 6
                   :direction "column"
                   :sx {:justify-content "space-between"}}
          [:> Grid {:item true}
@@ -152,10 +100,7 @@
            [:> IconButton {:on-click #(when (js/confirm "Are you sure you want to delete?")
                                         (rf/dispatch [:recipe/delete-ingredient id]))}
             [:> DeleteOutlineIcon {:color "warning"
-                                   :sx {:font-size "2rem"}}]]])]
-       #_[ingredient-modal {:values (r/atom (rf/subscribe [:recipe/ingredient id]))
-                            :id id
-                            :save update-ingredient}]])))
+                                   :sx {:font-size "2rem"}}]]])]])))
 
 (defn header-ingredients
   [{:keys [open-modal values]}]
@@ -167,12 +112,13 @@
                    :font-weight 500
                    :class-name "text-slate-700"}
     "Ingredients"]
-   [:> Box {:p 2}
-    [:> IconButton {:on-click #(open-modal {:modal-key :ingredient-editor
-                                            :ingredient values})
-                    :class-name "text-slate-700"}
-     [:> AddCircleOutlineIcon {:color "primary"
-                               :sx {:font-size "2rem"}}]]]])
+   (when-let [author? @(rf/subscribe [:recipe/author?])]
+     [:> Box {:p 2}
+      [:> IconButton {:on-click #(open-modal {:modal-key :ingredient-editor
+                                              :ingredient values})
+                      :class-name "text-slate-700"}
+       [:> AddCircleOutlineIcon {:color "primary"
+                                 :sx {:font-size "2rem"}}]]])])
 
 (defn ingredients []
   (let [initial-values {:id nil
@@ -203,7 +149,7 @@
                   :class-name "flex-wrap"}
           [:> Paper {:p 2 :variant "outlined"
                      :pl 2
-                     :border-radius "10px"
+                     :sx {:border-radius "10px"}
                      :display "flex"
                      :class-name "flex-wrap"}
 

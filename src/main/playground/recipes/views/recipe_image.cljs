@@ -20,9 +20,9 @@
                      (reset! values recipe))]
     [:<>
      [:> Card {:p 2
-               :sx {:box-shadow 10}
-               :class-name "hover:shadow-2xl"
-               :border-radius "10px"}
+               :sx {:box-shadow 10
+                    :border-radius "10px"}
+               :class-name "hover:shadow-2xl"}
       [:> CardMedia {:class (when author? "editable")
                      :sx {:height 500
                           :width 600}

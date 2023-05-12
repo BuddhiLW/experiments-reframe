@@ -9,6 +9,7 @@
 
 (defn recipe-card [recipe]
   (let [{:keys [name saved-count prep-time img id]} recipe]
+    ^{:key id}
     [:> Grid {:px 2}
      [:> Paper {:pb 4
                 :sx {:box-shadow 3}
@@ -25,7 +26,7 @@
                             :width 400}
                        :image (str (or img
                                        "img/placeholder.jpg"))}]
-        [:> Grid {:container true :xs 12}
+        [:> Grid {:container true}
          [:> Grid {:item true :xs 12 :pt 2}
           [:> Typography {:variant "p"
                           :px 2

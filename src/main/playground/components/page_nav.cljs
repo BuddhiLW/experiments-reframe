@@ -1,47 +1,46 @@
 (ns playground.components.page-nav
   (:require
-   ;; ["@mui/icons-material" :refer [ChevronLeftIcon AdjustIcon]]
-   ;; import AdjustIcon from '@mui/icons-material/Adjust';
    ["@mui/icons-material/Adjust" :default AdjustIcon]
-   ;; import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-   ["@mui/icons-material/ChevronLeft" :default ChevronLeftIcon]
-   ["@mui/material" :refer [Box Button Grid Typography Container Toolbar]]))
+   ;; ["@mui/icons-material/ChevronLeft" :default ChevronLeftIcon]
+   ["@mui/icons-material/ArrowCircleLeftRounded" :default ArrowCircleLeftRoundedIcon]
+   ["@mui/material" :refer [Box Button Grid Typography  colors]]
+   [playground.router :as router]))
 
-;; import AdjustIcon from '@mui/icons-material/Adjust'
 (defn page-nav
   [{:keys [left center right]}]
   [:<>
-   [:> Box {:py 1
+   [:> Box {:py 5
             :px 5
             :component "nav"
             :variant "dense"
             :fluid "false"
             :display "flex"
             :justify-content "space-between"
-            :container "true"}
+            :container "true"
+            :align-items "center"}
     [:> Box {:display "flex"
              :justify-content "flex-start"
              :py 1}
      (if left
-       [:> Button {:as "a"
-                   :my "20"
+       [:> Button {:my "20"
                    :variant "light"
                    :aria-label "Back"
-                   :href left}
-        [:> ChevronLeftIcon {:font-size "2.5rem"}]]
+                   :href (router/path-for left)}
+        [:> ArrowCircleLeftRoundedIcon {:sx {:font-size "2.5rem"
+                                             :color (get-in (js->clj colors :keywordize-keys true) [:pink :500])}}]]
        [:> Button {:my "20"
                    :variant "light"
                    :aria-label "Back"}
         [:> AdjustIcon {:sx {:font-size "2.5em"}}]])]
-    [:> Box {:justify-content "center"
-             :pb 10}
-     [:> Typography {:variant "div"
-                     :color "inherit"
-                     :py 20
-                     :justify-content "center"
-                     :font-size "2.5rem"
-                     :font-weight 700}
-      center]]
+    [:> Box {:justify-content "center"}
+     (if (= (type center) (type "String"))
+       [:> Typography {:variant "h2"
+                       :color "inherit"
+                       :py 5
+                       :font-size "2.5rem"
+                       :font-weight 700}
+        center]
+       [center])]
     (if right
       right
       [:div " "])]])

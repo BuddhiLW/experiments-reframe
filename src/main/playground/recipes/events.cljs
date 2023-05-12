@@ -10,14 +10,6 @@
          (update-in [:users uid :saved] conj recipe-id)
          (update-in [:recipes recipe-id :saved-count] inc)))))
 
-(rf/reg-event-fx
- :recipe/update-ingredient
- (fn [{:keys [db]} [_ {:keys [id] :as new-values}]]
-   (js/console.log "update ingredient" db id new-values)
-   (let [active-recipe (get-in db [:nav :active-recipe])]
-     {:db (assoc-in db [:recipes active-recipe :ingredients id] new-values)
-      :dispatch [:recipes/close-modal]})))
-
 (rf/reg-event-db
  :recipes/unsave-recipe
  (fn [db [_ recipe-id]]
@@ -51,3 +43,64 @@
    (let [active-recipe (get-in db [:nav :active-recipe])]
      {:db (update-in db [:recipes active-recipe :ingredients] dissoc ingredient-id)
       :dispatch [:recipes/close-modal]})))
+
+(rf/reg-event-fx
+ :recipe/save-step
+ (fn [{:keys [db]} [_ {:keys [id desc]}]]
+   (let [active-recipe (get-in db [:nav :active-recipe])
+         steps         (get-in db [:recipes active-recipe :steps])
+         new-order     (if (number? (get-in steps [id :order]))
+                         (get-in steps [id :order])
+                         (inc (count steps)))
+         data (js/console.log "data" {:id id
+                                      :order new-order
+                                      :desc desc})]
+
+     {:db (assoc-in db [:recipes active-recipe :steps id]  {:id id
+                                                            :order new-order
+                                                            :desc desc})
+      :dispatch-n [[:steps/reorder-steps]
+                   [:recipes/close-modal]]})))
+
+(rf/reg-event-db
+ :steps/reorder-steps
+ (fn [db _]
+   (let [active-recipe (get-in db [:nav :active-recipe])
+         steps         (get-in db [:recipes active-recipe :steps])
+         sorted-steps  (->> steps
+                            (map (fn [[k v]] [k (get v :order)]))
+                            (sort-by second)
+                            (map first))]
+     (-> db
+         (update-in [:recipes active-recipe :steps] (fn [steps]
+                                                      (zipmap sorted-steps steps)))))))
+
+(rf/reg-event-fx
+ :recipe/delete-step
+ (fn [{:keys [db]} [_ step-id]]
+   (let [active-recipe (get-in db [:nav :active-recipe])]
+     {:db (update-in db [:recipes active-recipe :steps] dissoc step-id)
+      :dispatch [:recipes/close-modal]})))
+
+(rf/reg-event-fx
+ :recipe/save-recipe
+ (fn [{:keys [db]} [_ {:keys [name prep-time]}]]
+   (let [active-recipe (get-in db [:nav :active-recipe])
+         id (or active-recipe (keyword (str "recipe-" (random-uuid))))
+         uid (get-in db [:auth :uid])]
+     {:db (update-in db [:recipes id] merge {:id id
+                                             :name name
+                                             :prep-time (js/parseInt prep-time)
+                                             :cook uid
+                                             :public? false})
+      :dispatch [:recipes/close-modal]})))
+
+(rf/reg-event-fx
+ :recipe/delete-recipe
+ (fn [{:keys [db]} _]
+   (let [recipe (get-in db [:nav :active-recipe])]
+         ;; uid (get-in db [:auth :uid])]
+     {:db (update db :recipes  dissoc recipe)
+      :dispatch-n [[:set-active-page :recipes]
+                   [:set-active-nav :recipes]]
+      :navigate-to {:path "/recipes/"}})))

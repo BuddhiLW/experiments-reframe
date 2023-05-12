@@ -17,3 +17,8 @@
    (let [recipe-id (get-in db [:nav :active-recipe])
          recipe (get-in db [:recipes recipe-id])]
      recipe)))
+
+(reg-sub
+ :nav/active-page
+ (fn [db _]
+   (get-in db [:nav :active-page])))
