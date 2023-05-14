@@ -1,12 +1,11 @@
 (ns playground.recipes.views.recipes-page
   (:require
-   ["@mui/icons-material/AddCircleOutline" :default AddCircleOutlineIcon]
-   ["@mui/material" :refer [Box Grid Typography IconButton]]
+   ["@mui/material" :refer [Box Grid Typography]]
    [playground.auth.subs]
    [playground.components.page-nav :refer [page-nav]]
    [playground.recipes.subs]
-   [playground.recipes.views.recipe-list :refer [recipe-list]]
    [playground.recipes.views.recipe-editor :refer [recipe-editor]]
+   [playground.recipes.views.recipe-list :refer [recipe-list]]
    [re-frame.core :as rf]))
 
 (defn recipes-page

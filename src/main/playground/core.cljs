@@ -7,6 +7,7 @@
    ;;--- main state: db ---
    [playground.db]
    ;;--- State manager ---
+   [re-frame-flow.macros :refer-macros [dispatch dispatch-sync]]
    [re-frame.core :as rf]
    [reagent.dom]
    ;; [reagent.core :as r]
@@ -24,8 +25,12 @@
    [playground.auth.subs]
    ;--- become-a-chef ---
    [playground.become-a-chef.views.become-a-chef :refer [become-a-chef]]
+   [playground.become-a-chef.events]
    ;--- inbox ---
-   [playground.inbox.views.inboxes :refer [inboxes]]
+   [playground.inbox.events]
+   [playground.inbox.subs]
+   [playground.inbox.views.inboxes-page :refer [inboxes-page]]
+   [playground.inbox.views.inbox-page :refer [inbox-page]]
    ;;--- nav ---
    [playground.nav.views.nav :refer [nav]]
    [playground.nav.events]
@@ -33,22 +38,24 @@
    ;--- recipes ---
    [playground.recipes.views.recipes-page :refer [recipes-page]]
    [playground.recipes.views.recipe-page :refer [recipe-page]]
+   [playground.recipes.views.saved-page :refer [saved-page]]
    [playground.router :as router]
    [playground.recipes.events]
-   ;; [playground.recipes.views.subs]))
    [playground.recipes.subs]))
 
 ;; ---------- END requires ---------
 (defn pages
   [page-name]
   (case page-name
-    :profile [profile]
-    :sign-up [sign-up]
-    :log-in [log-in]
-    :become-a-chef [become-a-chef]
-    :inbox [inboxes]
-    :recipes [recipes-page]
-    :recipe [recipe-page]
+    :profile           [profile]
+    :sign-up           [sign-up]
+    :log-in            [log-in]
+    :become-a-chef     [become-a-chef]
+    :inbox             [inbox-page]
+    :inboxes           [inboxes-page]
+    :recipes           [recipes-page]
+    :recipe            [recipe-page]
+    :saved             [saved-page]
     [recipes-page]))
 
 (defn- main []
@@ -75,7 +82,7 @@
 (defn ^:export init
   []
   (router/start!)
-  (rf/dispatch-sync [:initialize-db])
+  (dispatch-sync [:initialize-db])
   (render))
 
 (defn- ^:dev/after-load re-render
@@ -84,4 +91,3 @@
   annotation."
   []
   (render))
-

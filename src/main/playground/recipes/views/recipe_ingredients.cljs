@@ -77,7 +77,6 @@
                       :justify-content "space-between"}}
         [:> Grid {:item true
                   :px 2
-                  :direction "column"
                   :sx {:justify-content "space-between"}}
          [:> Grid {:item true}
           [:> Typography {:variant "h5"

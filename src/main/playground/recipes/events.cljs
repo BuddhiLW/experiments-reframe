@@ -59,7 +59,7 @@
      {:db (assoc-in db [:recipes active-recipe :steps id]  {:id id
                                                             :order new-order
                                                             :desc desc})
-      :dispatch-n [[:steps/reorder-steps]
+      :dispatch-n [#_[:steps/reorder-steps]
                    [:recipes/close-modal]]})))
 
 (rf/reg-event-db
@@ -104,3 +104,25 @@
       :dispatch-n [[:set-active-page :recipes]
                    [:set-active-nav :recipes]]
       :navigate-to {:path "/recipes/"}})))
+
+(rf/reg-event-fx
+ :recipe/publish
+ (fn [{:keys [db]} [_ {:keys [price]}]]
+   (let [active-recipe (get-in db [:nav :active-recipe])]
+     {:db (update-in db [:recipes active-recipe] merge {:price (js/parseInt price)
+                                                        :public? true})
+      :dispatch [:recipes/close-modal]})))
+
+(rf/reg-event-fx
+ :recipe/unpublish
+ (fn [{:keys [db]} _]
+   (let [active-recipe (get-in db [:nav :active-recipe])]
+     {:db (assoc-in db [:recipes active-recipe :public?] false)
+      :dispatch [:recipes/close-modal]})))
+
+(rf/reg-event-fx
+ :recipe/upsert-image
+ (fn [{:keys [db]} [_ {:keys [img]}]]
+   (let [active-recipe (get-in db [:nav :active-recipe])]
+     {:db (assoc-in db [:recipes active-recipe :img] img)
+      :dispatch [:recipes/close-modal]})))

@@ -18,3 +18,15 @@
  (fn [db _]
    (let [uid (get-in db [:auth :uid])]
      (get-in db [:users uid]))))
+
+(rf/reg-sub
+ :auth/current-user
+ (fn [db _]
+   (get-in db [:auth :uid])))
+
+(rf/reg-sub
+ :auth/chef?
+ (fn [db _]
+   (let [uid (get-in db [:auth :uid])]
+     (= (get-in db [:users uid :role])
+        :chef))))

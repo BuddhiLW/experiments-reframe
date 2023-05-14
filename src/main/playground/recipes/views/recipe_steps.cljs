@@ -26,6 +26,7 @@
               [form-group {:id :desc
                            :label "Description"
                            :type "text"
+                           :text-area? true
                            :values values}]]])
           :footer
           (fn []
@@ -120,7 +121,6 @@
               (when author?
                 [:> Grid {:item true
                           :display "flex"
-                          ;; :direction "row"
                           :sx {:justify-content "flex-end"}
                           :pr 4
                           :xs 1}

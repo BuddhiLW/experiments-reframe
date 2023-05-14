@@ -40,7 +40,12 @@
                        :font-size "2.5rem"
                        :font-weight 700}
         center]
-       [center])]
-    (if right
-      right
-      [:div " "])]])
+       center)]
+    [:> Box
+     (cond
+       (= (type right) (type "String"))  [:> Box {:display "flex"
+                                                  :justify-content "flex-end"
+                                                  :py 1}
+                                          right]
+       (nil? right)                      [:div " "]
+       :else                             right)]]])

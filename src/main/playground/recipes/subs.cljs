@@ -19,8 +19,10 @@
 (rf/reg-sub
  :recipe/author?
  :<- [:recipes/recipe]
- :<- [:recipes/user]
- (fn [[{:keys [cook]} {:keys [uid]}] _]
+ :<- [:auth/current-user]
+ (fn [[{:keys [cook]} uid] _]
+   (js/console.log "recipe/author?" (= cook uid))
+   (js/console.log "cook uid:" cook uid)
    (= cook uid)))
 
 (rf/reg-sub
@@ -57,3 +59,17 @@
  (fn [db [_ id-ingredient]]
    (let [active-recipe (get-in db [:nav :active-recipe])]
      (get-in db [:recipes active-recipe :ingredients id-ingredient]))))
+
+(rf/reg-sub
+ :recipe/public?
+ (fn [db [_]]
+   (let [active-recipe (get-in db [:nav :active-recipe])]
+     (get-in db [:recipes active-recipe :public?]))))
+
+(rf/reg-sub
+ :recipes/saved
+ (fn [db _]
+   (let [uid (get-in db [:auth :uid])
+         saved (get-in db [:users uid :saved])
+         recipes (vals (:recipes db))]
+     (filter #(contains? saved (:id %)) recipes))))
