@@ -11,6 +11,8 @@
                  [org.postgresql/postgresql "42.6.0"]
                  [clj-http "3.12.3"]
                  [net.clojars.kelveden/ring-jwt "2.4.0"]]
+  :source-paths ["src/clj"]
+  :resource-paths ["resources"]
   :profiles {:uberjar {:aot :all}
              :dev {:source-paths ["dev/src"]
                    :resource-paths ["dev/resources"]
