@@ -6,27 +6,35 @@
   (compare b a))
 
 (rf/reg-sub
- :user/inboxes
+ :inboxes
  (fn [db _]
-   (let [uid (get-in db [:auth :uid])]
-     (sort-by :update-at reverse-cmp (get-in db [:users uid :inboxes])))))
+   (get db :inboxes)))
+
+(rf/reg-sub
+ :user/inboxes
+ :<- [:recipes/user]
+ (fn [user _]
+   (sort-by :update-at reverse-cmp (get user :inboxes))))
 
 (rf/reg-sub
  :inbox/user-image
- (fn [db [_ uid]]
-   (get-in db [:users uid :profile :img])))
+ :<- [:users]
+ (fn [users [_ uid]]
+   (get-in users [uid :profile :img])))
 
 (rf/reg-sub
  :inbox/inbox-messages
- (fn [db _]
-   (let [inbox-id (get-in db [:nav :active-inbox])
-         messages (get-in db [:inboxes inbox-id :messages])]
+ :<- [:inboxes]
+ :<- [:nav/active-inbox]
+ (fn [[inboxes active-inbox] _]
+   (let [messages (get-in inboxes [active-inbox :messages])]
      (sort-by :created-at reverse-cmp messages))))
 
 (rf/reg-sub
  :inbox/chat-with
- (fn [db _]
-   (let [uid          (get-in db [:auth :uid])
-         inbox-id     (get-in db [:nav :active-inbox])
-         participants (get-in db [:inboxes inbox-id :participants])]
+ :<- [:uid]
+ :<- [:inboxes]
+ :<- [:nav/active-inbox]
+ (fn [[uid inboxes active-inbox] _]
+   (let [participants (get-in inboxes [active-inbox :participants])]
      (first (disj participants uid)))))

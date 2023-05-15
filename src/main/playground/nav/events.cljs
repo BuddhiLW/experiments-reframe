@@ -1,38 +1,55 @@
 (ns playground.nav.events
   (:require
    [playground.router :as router]
-   [re-frame.core :refer [reg-event-db
-                          reg-fx]]))
+   [playground.spec :refer [check-spec-interceptor]]
+   [re-frame.core :refer [path reg-event-db reg-event-fx reg-fx]]))
+
+(def nav-interceptors [check-spec-interceptor
+                       (path :nav)])
+                       ;; check-spec-interceptor])
 
 (reg-fx
  :navigate-to
  (fn [{:keys [path]}]
    (router/set-token! path)))
 
-(reg-event-db
+(reg-event-fx
  :route-changed
- (fn [db [_ {:keys [route-params handler]}]]
-   #_(js/console.log "route-changed" route)
-   (-> db
-       (assoc-in [:nav :active-page]   handler)
-       (assoc-in [:nav :active-recipe] (keyword (:recipe-id route-params)))
-       (assoc-in [:nav :active-inbox]  (keyword (:inbox-id route-params))))))
+ nav-interceptors
+ (fn [{nav :db} [_ {:keys [handler route-params]}]]
+   (let [nav (assoc nav :active-page handler)]
+     (case handler
+       :recipes
+       {:db nav
+        :dispatch [:http/get-recipes]}
+
+       :recipe
+       {:db (assoc nav :active-recipe (keyword (:recipe-id route-params)))
+        :dispatch [:http/get-recipes]}
+
+       :inbox
+       {:db (assoc nav :active-inbox (keyword (:inbox-id route-params)))}
+
+       {:db (dissoc nav :active-recipe :active-inbox)}))))
 
 (reg-event-db
  :set-active-nav
- (fn [db [_ active-nav]]
-   (assoc-in db [:nav :active-nav] active-nav)))
+ nav-interceptors
+ (fn [nav [_ active-nav]]
+   (assoc nav :active-nav active-nav)))
 
 (reg-event-db
  :set-active-page
- (fn [db [_ active-page]]
-   (assoc-in db [:nav :active-page] active-page)))
+ nav-interceptors
+ (fn [nav [_ active-page]]
+   (assoc nav :active-page active-page)))
 
 (reg-event-db
  :recipes/close-modal
- (fn [db _]
-   (assoc-in db [:nav :active-modal]  nil)))
+ nav-interceptors
+ (fn [nav _]
+   (assoc nav :active-modal  nil)))
 
 (comment)
  ;; (rf/dispatch [:set-active-nav :id-nav]))
- ;; (fn [db [a b]]) -> (a <-> :set-active-nav) ^ (b <-> :id-nav))
+ ;; (fn nav [a b]]) -> (a <-> :set-active-nav) ^ (b <-> :id-nav))

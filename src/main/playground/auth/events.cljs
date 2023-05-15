@@ -1,6 +1,7 @@
 (ns playground.auth.events
   (:require
    [cljs.reader :as reader]
+   [playground.spec :refer [check-spec-interceptor]]
    [re-frame.core :refer [reg-event-fx
                           reg-event-db
                           reg-cofx
@@ -20,10 +21,12 @@
   (.removeItem js/localStorage playground-user-key))
 
 (def set-user-interceptors
-  [(after set-user-ls!)])
+  [(after set-user-ls!)
+   check-spec-interceptor])
 
 (def remove-user-interceptors
-  [(after remove-user-ls!)])
+  [(after remove-user-ls!)
+   check-spec-interceptor])
 
 (reg-cofx
  :local-store-user

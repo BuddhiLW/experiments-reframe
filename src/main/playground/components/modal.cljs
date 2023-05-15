@@ -27,4 +27,9 @@
                          :class-name "text-slate-600"}
           title]
          body
-         footer]]])))
+         (if (= (type footer) (type (fn [] 1)))
+           [footer]
+           footer)]]])))
+
+(comment
+  (type (fn [] 1)))

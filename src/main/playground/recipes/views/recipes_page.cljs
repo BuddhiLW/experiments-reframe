@@ -1,6 +1,6 @@
 (ns playground.recipes.views.recipes-page
   (:require
-   ["@mui/material" :refer [Box Grid Typography]]
+   ["@mui/material" :refer [Grid Box Typography]] ;; Button
    [playground.auth.subs]
    [playground.components.page-nav :refer [page-nav]]
    [playground.recipes.subs]
@@ -18,6 +18,12 @@
                 :right (when logged-in?
                          [:<>
                           [recipe-editor]])}]
+     ;; [:> Button {:variant "contained"
+     ;;             :color "primary"
+     ;;             :sx {:ml 5
+     ;;                  :mt 5}
+     ;;             :on-click #(rf/dispatch [:http/get-recipes])}
+     ;;  "Get recipes"]
      [:> Grid {:display "flex"
                :flex-direction "column"
                :container true}

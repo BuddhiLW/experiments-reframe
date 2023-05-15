@@ -29,9 +29,7 @@
                  :align-items "center"}
         (if can-save?
           [:> CardActions
-           [:> IconButton {:on-click (do (js/console.log "can-save?" can-save?)
-                                         (js/console.log "saved?" saved?)
-                                         #(rf/dispatch [:recipes/save-recipe id]))}
+           [:> IconButton {:on-click #(rf/dispatch [:recipes/save-recipe id])}
             [:> FavoriteBorderOutlined {:class-name "text-pink-500"
                                         :sx {:font-size 40}
                                         :href "#"}]]]

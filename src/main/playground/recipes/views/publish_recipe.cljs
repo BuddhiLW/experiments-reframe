@@ -40,28 +40,30 @@
                               :on-key-down #(when (= (.-which %) 13)
                                               (publish % @values))}]]]]
               :footer
-              [:<>
-               [:> Grid {:display "flex"
-                         :flex-direction "row"
-                         :justify-content "space-between"
-                         :px 5
-                         :py 3
-                         :sx {:border-radius "18px"
-                              :box-shadow 10}
-                         :bgcolor (util/color [:grey :100])}
-                [:> Button {:variant "contained"
-                            :color "warning"
-                            :on-click #(rf/dispatch [:recipes/close-modal])}
-                 "Cancel"]
-                (if @(rf/subscribe [:recipe/public?])
-                  [:> Button {:variant "contained"
-                              :sx {:bgcolor (util/color [:red :500])}
-                              :on-click #(rf/dispatch [:recipe/unpublish])}
-                   "Unpublish"]
-                  [:> Button {:variant "contained"
-                              :color "primary"
-                              :on-click #(publish % @values)}
-                   "Publish"])]]}))))
+              (fn []
+                (let [public? @(rf/subscribe [:recipe/public?])]
+                  [:<>
+                   [:> Grid {:display "flex"
+                             :flex-direction "row"
+                             :justify-content "space-between"
+                             :px 5
+                             :py 3
+                             :sx {:border-radius "18px"
+                                  :box-shadow 10}
+                             :bgcolor (util/color [:grey :100])}
+                    [:> Button {:variant "contained"
+                                :color "warning"
+                                :on-click #(rf/dispatch [:recipes/close-modal])}
+                     "Cancel"]
+                    (if public?
+                      [:> Button {:variant "contained"
+                                  :sx {:bgcolor (util/color [:red :500])}
+                                  :on-click #(rf/dispatch [:recipe/unpublish])}
+                       "Unpublish"]
+                      [:> Button {:variant "contained"
+                                  :color "primary"
+                                  :on-click #(publish % @values)}
+                       "Publish"])]]))}))))
 
 (defn publish-recipe
   []
@@ -78,7 +80,7 @@
            public? [:> Button {:on-click #(open-modal {:modal-name :publish-recipe})
                                :sx {:bgcolor (util/color [:red :500])
                                     :color "white"}}
-                    (str price)]
+                    (h/format-price price)]
 
            (not public?) [:> Button {:on-click #(open-modal {:modal-name :publish-recipe
                                                              :recipe {:price price}})

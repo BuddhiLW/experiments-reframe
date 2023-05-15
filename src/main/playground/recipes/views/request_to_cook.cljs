@@ -1,13 +1,13 @@
 (ns playground.recipes.views.request-to-cook
   (:require
-   ["@mui/material" :refer [Box Button FormControl Grid]]
+   ["@mui/material" :refer [Button FormControl Grid]]
+   [clojure.string :as str]
    [playground.components.form-group :refer [form-group]]
    [playground.components.modal :refer [modal]]
+   [playground.helpers :as h]
    [playground.utilites :as util]
    [re-frame.core :as rf]
-   [reagent.core :as r]
-   [clojure.string :as str]
-   [playground.helpers :as h]))
+   [reagent.core :as r]))
 
 (defn request-to-cook-modal
   [{:keys [values]}]
@@ -18,47 +18,47 @@
       (modal {:modal-key :request-to-cook
               :title "Order"
               :body
-              (fn []
-                [:> Grid {:container true
-                          :sx {:justify-content "center"}
-                          :pb 5
-                          :pt 2}
-                 [:> FormControl  {:component "fieldset"
-                                   :variant "filled"
-                                   :display "flex"
-                                   :full-width true
-                                   :margin "normal"
-                                   :size "small"
-                                   :sx {:justify-content "center"}}
-                  [:> Grid {:display "flex"
-                            :direction "column"
-                            :sx {:justify-content "center"}
-                            :pb 5
-                            :px 5
-                            :pt 2}
-                   [form-group {:id :message
-                                :label "Describe the order (event, number of people, etc.)"
-                                :type "text"
-                                :values values}]]]])
-              :footer
-              (fn []
-                [:<>
+              [:form
+               [:> Grid {:container true
+                         :sx {:justify-content "center"}
+                         :pb 5
+                         :pt 2}
+                [:> FormControl  {:component "fieldset"
+                                  :variant "filled"
+                                  :display "flex"
+                                  :full-width true
+                                  :margin "normal"
+                                  :size "small"
+                                  :sx {:justify-content "center"}}
                  [:> Grid {:display "flex"
-                           :flex-direction "row"
-                           :justify-content "space-between"
+                           :direction "column"
+                           :sx {:justify-content "center"}
+                           :pb 5
                            :px 5
-                           :py 3
-                           :sx {:border-radius "18px"
-                                :box-shadow 10}
-                           :bgcolor (util/color [:grey :100])}
-                  [:> Button {:variant "contained"
-                              :color "warning"
-                              :on-click #(rf/dispatch [:recipes/close-modal])}
-                   "Cancel"]
-                  [:> Button {:variant "contained"
-                              :color "primary"
-                              :on-click #(request @values)}
-                   "Request"]]])}))))
+                           :pt 2}
+                  [form-group {:id :message
+                               :label "Describe the order (event, number of people, etc.)"
+                               :type "text"
+                               :values values}]]]]]
+              :footer
+              ;; (fn []
+              [:<>
+               [:> Grid {:display "flex"
+                         :flex-direction "row"
+                         :justify-content "space-between"
+                         :px 5
+                         :py 3
+                         :sx {:border-radius "18px"
+                              :box-shadow 10}
+                         :bgcolor (util/color [:grey :100])}
+                [:> Button {:variant "contained"
+                            :color "warning"
+                            :on-click #(rf/dispatch [:recipes/close-modal])}
+                 "Cancel"]
+                [:> Button {:variant "contained"
+                            :color "primary"
+                            :on-click #(request @values)}
+                 "Request"]]]}))))
 
 (defn request-to-cook
   []

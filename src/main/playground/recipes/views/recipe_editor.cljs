@@ -25,7 +25,8 @@
                    :class-name "w-full"}
                      ;; :min-width "50vw"}
             [:> Grid {:display "flex"
-                      :direction "row"
+                      ;; :direction "row"
+                      :flex-direction "row"
                       :justify-content "center"
                       :align-items "center"
                       :fullWidth true
@@ -84,7 +85,7 @@
                  (reset! values initial-values)))]
     (fn []
       (let [{:keys [name prep-time] :as recipe} @(rf/subscribe [:recipes/recipe])
-            active-page @(rf/subscribe [:nav/active-page])]
+            active-page @(rf/subscribe [:active-page])]
         [:> Grid {:item true}
          [modal-recipe-editor {:values values :save save}]
          (if (= active-page :recipe)

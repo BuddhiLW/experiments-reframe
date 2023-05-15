@@ -15,18 +15,19 @@
   [modal {:modal-key :step-editor
           :title "Describe the step"
           :body
-          [:> Grid {:p 5
-                    :align-items "center"}
-           [:> FormControl  {:component "fieldset"
-                             :variant "standard"
-                             :fullWidth true
-                             :margin "normal"
-                             :size "small"}
-            [form-group {:id :desc
-                         :label "Description"
-                         :type "text"
-                         :text-area? true
-                         :values values}]]]
+          [:form
+           [:> Grid {:p 5
+                     :align-items "center"}
+            [:> FormControl  {:component "fieldset"
+                              :variant "standard"
+                              :fullWidth true
+                              :margin "normal"
+                              :size "small"}
+             [form-group {:id :desc
+                          :label "Description"
+                          :type "text"
+                          :text-area? true
+                          :values values}]]]]
           :footer
           [:> Grid {:display "flex"
                     :flex-direction "row"
@@ -61,7 +62,7 @@
                      (reset! values step))
         save (fn [{:keys [id order desc]}]
                (when (not (str/blank? desc))
-                 (rf/dispatch [:recipe/save-step {:id (or id (keyword (str "step-" (random-uuid))))
+                 (rf/dispatch [:recipe/save-step {:id (or (keyword id) (keyword (str "step-" (random-uuid))))
                                                   :order order
                                                   :desc desc}])
                  (reset! values initial-values)))]

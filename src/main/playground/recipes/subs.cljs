@@ -2,27 +2,30 @@
   (:require [re-frame.core :as rf]))
 
 (rf/reg-sub
- :filter/draft
+ :recipes
  (fn [db _]
-   (let [recipes (vals (:recipes db))
-         uid (get-in db [:auth :uid])
-         filters [#(= (:public? %) false) #(= (:cook %) uid)]]
-     (filter (apply every-pred filters) recipes))))
+   ;; (js/console.log "(vals recipes)" (:recipes db))
+   (:recipes db)))
+
+(rf/reg-sub
+ :filter/draft
+ :<- [:recipes]
+ :<- [:uid]
+ (fn [[recipes uid] _]
+   (let [filters [#(= (:public? %) false) #(= (:cook %) uid)]]
+     (filter (apply every-pred filters) (vals recipes)))))
 
 (rf/reg-sub
  :filter/public
- (fn [db _]
-   (let [recipes (vals (:recipes db))
-         uid (get-in db [:auth :uid])]
-     (filter #(= (:public? %) true) recipes))))
+ :<- [:recipes]
+ (fn [recipes _]
+   (filter #(= (:public? %) true) (vals recipes))))
 
 (rf/reg-sub
  :recipe/author?
  :<- [:recipes/recipe]
  :<- [:auth/current-user]
  (fn [[{:keys [cook]} uid] _]
-   (js/console.log "recipe/author?" (= cook uid))
-   (js/console.log "cook uid:" cook uid)
    (= cook uid)))
 
 (rf/reg-sub
@@ -32,21 +35,19 @@
 
 (rf/reg-sub
  :recipe/ingredients
- (fn [db _]
-   (let [active-recipe (get-in db [:nav :active-recipe])
-         ingredients (get-in db [:recipes active-recipe :ingredients])]
-     (->> ingredients
-          (vals)
-          (sort-by :order)))))
+ :<- [:recipes/recipe]
+ (fn [recipe _]
+   (->> (:ingredients recipe)
+        (vals)
+        (sort-by :order))))
 
 (rf/reg-sub
  :recipe/steps
- (fn [db _]
-   (let [active-recipe (get-in db [:nav :active-recipe])
-         ingredients (get-in db [:recipes active-recipe :steps])]
-     (->> ingredients
-          (vals)
-          (sort-by :order)))))
+ :<- [:recipes/recipe]
+ (fn [recipe _]
+   (->> (:steps recipe)
+        (vals)
+        (sort-by :order))))
 
 #_(rf/reg-fx
    :recipe/update-recipe
@@ -68,8 +69,8 @@
 
 (rf/reg-sub
  :recipes/saved
- (fn [db _]
-   (let [uid (get-in db [:auth :uid])
-         saved (get-in db [:users uid :saved])
-         recipes (vals (:recipes db))]
-     (filter #(contains? saved (:id %)) recipes))))
+ :<- [:recipes]
+ :<- [:recipes/user]
+ (fn [[recipes user] _]
+   (let [saved (:saved user)]
+     (filter #(contains? saved (:id %)) (vals recipes)))))

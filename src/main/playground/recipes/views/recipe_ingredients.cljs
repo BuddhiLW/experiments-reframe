@@ -130,10 +130,10 @@
                      (reset! values ingredient))
         save (fn [e {:keys [id name amount measure]}]
                (.preventDefault e)
-               (when (and (str/blank? name)
+               (when (and (not (str/blank? name))
                           (h/valid-number amount)
-                          (str/blank? measure))
-                 (rf/dispatch [:recipe/save-ingredient {:id (or id (keyword (str "ingredient-" (random-uuid))))
+                          (not (str/blank? measure)))
+                 (rf/dispatch [:recipe/save-ingredient {:id (or (keyword id) (keyword (str "ingredient-" (random-uuid))))
                                                         :name (str/trim name)
                                                         :amount (js/parseInt amount)
                                                         :measure (str/trim measure)}])

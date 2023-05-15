@@ -6,13 +6,16 @@
            :modules {:main {:init-fn playground.core/init}}
            :output-dir "public/js/compiled"
            :asset-path "/js/compiled"
-           :compiler-options {:closure-defines {re-frame-flow.trace.dispatch-enabled? true
-                                                re-frame.trace/trace-enabled? true
-                                                "re_frame.trace.trace_enabled_QMARK_" true}}
+           :dev {:compiler-options {:closure-defines {;; re-frame-flow.trace.dispatch-enabled? true
+                                                      re-frame.trace/trace-enabled? true
+                                                      ;; day8.re-frame.tracing/trace-enabled? true
+                                                      ;; "re_frame.trace.trace_enabled_QMARK_" true
+                                                      "re_frame.trace.trace_enabled_QMARK_" true
+                                                      "day8.re_frame.tracing.trace_enabled_QMARK_"  true}}}
            :devtools {:preloads [devtools.preload
-                                 re-frame-flow.preload
-                                 day8.re-frame-10x.preload
-                                 re-frisk.preload]
+                                 ;; re-frame-flow.preload
+                                 day8.re-frame-10x.preload]
+                                 ;; re-frisk.preload]
                       :external-config {:devtools/config {:features-to-install    [:formatters :hints]
                                                           :fn-symbol              "F"
                                                           :print-config-overrides true}}}}}}
