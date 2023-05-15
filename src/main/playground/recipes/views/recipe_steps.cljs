@@ -2,9 +2,9 @@
   (:require
    ["@mui/icons-material/Create" :default CreateIcon]
    ["@mui/icons-material/DeleteOutline" :default DeleteOutlineIcon]
-   ["@mui/material" :refer [Typography Grid IconButton
-                            FormControl colors
-                            Paper Button]]
+   ["@mui/material" :refer [Button colors FormControl Grid IconButton Paper
+                            Typography]]
+   [clojure.string :as str]
    [playground.components.form-group :refer [form-group]]
    [playground.components.modal :refer [modal]]
    [re-frame.core :as rf]
@@ -15,43 +15,41 @@
   [modal {:modal-key :step-editor
           :title "Describe the step"
           :body
-          (fn []
-            [:> Grid {:p 5
-                      :align-items "center"}
-             [:> FormControl  {:component "fieldset"
-                               :variant "standard"
-                               :fullWidth true
-                               :margin "normal"
-                               :size "small"}
-              [form-group {:id :desc
-                           :label "Description"
-                           :type "text"
-                           :text-area? true
-                           :values values}]]])
+          [:> Grid {:p 5
+                    :align-items "center"}
+           [:> FormControl  {:component "fieldset"
+                             :variant "standard"
+                             :fullWidth true
+                             :margin "normal"
+                             :size "small"}
+            [form-group {:id :desc
+                         :label "Description"
+                         :type "text"
+                         :text-area? true
+                         :values values}]]]
           :footer
-          (fn []
-            [:> Grid {:display "flex"
-                      :flex-direction "row"
-                      :justify-content "space-between"
-                      :px 5
-                      :py 3
-                      :sx {:border-radius "18px"
-                           :box-shadow 10}
-                      :bgcolor (get-in (js->clj colors :keywordize-keys true) [:grey :100])}
-             (when-let [step-id (:id @values)]
-               [:> Button {:variant "contained"
-                           :color "warning"
-                           :on-click #(when (js/confirm "Are you sure?")
-                                        (rf/dispatch [:recipe/delete-step step-id]))}
-                "Delete"])
+          [:> Grid {:display "flex"
+                    :flex-direction "row"
+                    :justify-content "space-between"
+                    :px 5
+                    :py 3
+                    :sx {:border-radius "18px"
+                         :box-shadow 10}
+                    :bgcolor (get-in (js->clj colors :keywordize-keys true) [:grey :100])}
+           (when-let [step-id (:id @values)]
              [:> Button {:variant "contained"
                          :color "warning"
-                         :on-click #(rf/dispatch [:recipes/close-modal])}
-              "Cancel"]
-             [:> Button {:variant "contained"
-                         :color "primary"
-                         :on-click #(save @values)}
-              "Save"]])}])
+                         :on-click #(when (js/confirm "Are you sure?")
+                                      (rf/dispatch [:recipe/delete-step step-id]))}
+              "Delete"])
+           [:> Button {:variant "contained"
+                       :color "warning"
+                       :on-click #(rf/dispatch [:recipes/close-modal])}
+            "Cancel"]
+           [:> Button {:variant "contained"
+                       :color "primary"
+                       :on-click #(save @values)}
+            "Save"]]}])
 
 (defn recipe-steps []
   (let [initial-values {:id nil
@@ -62,11 +60,11 @@
                      (rf/dispatch [:recipes/open-modal modal-key])
                      (reset! values step))
         save (fn [{:keys [id order desc]}]
-               (rf/dispatch [:recipe/save-step {:id (or id (keyword (str "step-" (random-uuid))))
-                                                :order order
-                                                :desc desc}])
-
-               (reset! values initial-values))]
+               (when (not (str/blank? desc))
+                 (rf/dispatch [:recipe/save-step {:id (or id (keyword (str "step-" (random-uuid))))
+                                                  :order order
+                                                  :desc desc}])
+                 (reset! values initial-values)))]
     (fn []
       (let [steps @(rf/subscribe [:recipe/steps])
             author? @(rf/subscribe [:recipe/author?])]

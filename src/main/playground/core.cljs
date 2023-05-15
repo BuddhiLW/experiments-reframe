@@ -26,6 +26,9 @@
    ;--- become-a-chef ---
    [playground.become-a-chef.views.become-a-chef :refer [become-a-chef]]
    [playground.become-a-chef.events]
+   ;--- validation/errors ---
+   [playground.validation.events]
+   [playground.validation.subs]
    ;--- inbox ---
    [playground.inbox.events]
    [playground.inbox.subs]

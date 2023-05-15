@@ -7,6 +7,7 @@
    [playground.recipes.views.recipe-editor :refer [recipe-editor]]
    [playground.recipes.views.recipe-info :refer [recipe-info]]
    [playground.recipes.views.recipe-steps :refer [recipe-steps]]
+   [playground.recipes.views.request-to-cook :refer [request-to-cook]]
    [playground.router :as router]
    [playground.utilites :as util]
    [re-frame.core :as rf]))
@@ -25,27 +26,26 @@
                           :saved
                           :recipes)
                   :center (if author?
-                            recipe-editor
-                            (fn []
-                              [:> Typography {:variant "div"
-                                              :color "inherit"
-                                              :py 5
-                                              :justify-content "center"
-                                              :font-size "2.5rem"
-                                              :font-weight 700}
-                               name]))
+                            [recipe-editor]
+                            [:> Typography {:variant "div"
+                                            :color "inherit"
+                                            :py 5
+                                            :justify-content "center"
+                                            :font-size "2.5rem"
+                                            :font-weight 700}
+                             name])
                   :right (cond
                            (not logged-in?)  [:> Button {:sx {:bgcolor (util/color [:green :500])}
                                                          :href (router/path-for :sign-up)
                                                          :on-click #(rf/dispatch [:set-active-nav :sign-up])}
                                               "Sign up"]
-                           (not chef?)      [:> Button {:variant "contained"
-                                                        :sx {:bgcolor (util/color [:pink :400])}
-                                                        :href (router/path-for :become-a-chef)
-                                                        :on-click #(rf/dispatch [:set-active-nav :become-a-chef])}
-                                             "Become a chef"]
-                           author?          [publish-recipe]
-                           (not author?)    "request to cook")}]
+                           (not author?)    [request-to-cook]
+                           (and (not chef?) author?)  [:> Button {:variant "contained"
+                                                                  :sx {:bgcolor (util/color [:pink :400])}
+                                                                  :href (router/path-for :become-a-chef)
+                                                                  :on-click #(rf/dispatch [:set-active-nav :become-a-chef])}
+                                                       "Become a chef"]
+                           author?          [publish-recipe])}]
        [:> Grid {:container true
                  :columns {:xs 6
                            :sm 7

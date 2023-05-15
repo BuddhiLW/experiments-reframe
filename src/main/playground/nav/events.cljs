@@ -14,8 +14,9 @@
  (fn [db [_ {:keys [route-params handler]}]]
    #_(js/console.log "route-changed" route)
    (-> db
-       (assoc-in [:nav :active-page] handler)
-       (assoc-in [:nav :active-recipe] (keyword (:recipe-id route-params))))))
+       (assoc-in [:nav :active-page]   handler)
+       (assoc-in [:nav :active-recipe] (keyword (:recipe-id route-params)))
+       (assoc-in [:nav :active-inbox]  (keyword (:inbox-id route-params))))))
 
 (reg-event-db
  :set-active-nav

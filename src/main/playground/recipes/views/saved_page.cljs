@@ -6,7 +6,8 @@
             ;; ["@mui/icons-material" :refer [FavoriteIcon]]
             ["@mui/material" :refer [Box Typography Grid]]
             ["@mui/icons-material/Favorite" :default FavoriteIcon]
-            [re-frame.core :as rf]))
+            [re-frame.core :as rf]
+            [playground.utilites :as util]))
 
 (defn saved-page
   []
@@ -16,6 +17,7 @@
      (if (seq saved)
        [recipe-list saved]
        [:div
-        [:Box {:sx {:display "flex" :justify-content "center" :align-items "center" :height "100%" :flex-direction "column"}}
-         [:FavoriteIcon {:sx {:width "100px" :height "100px"}}]
-         [:Typography {:variant "h4" :sx {:mt "20px"}} "No Saved Recipes"]]])]))
+        [:> Box {:sx {:display "flex" :justify-content "center" :align-items "center" :height "100%" :flex-direction "column"}}
+         [:> FavoriteIcon {:sx {:width "100px" :height "100px"
+                                :color (util/color [:red :500])}}]
+         [:> Typography {:variant "h4" :sx {:mt "20px"}} "No saved recipes, yet!"]]])]))

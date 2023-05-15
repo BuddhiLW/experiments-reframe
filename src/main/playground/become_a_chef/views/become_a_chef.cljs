@@ -25,29 +25,29 @@
                 :display "flex"
                 :justify-content "center"
                 :align-items "center"}
-       [:> Card {:sx {:max-width 500
-                      :max-height 500
+       [:> Card {:sx {:maxwidth 500
+                      :maxheight 500
                       :border-radius "100%"}
                  :class-name "rounded-full"
                  :variant "outlined"}
         [:> CardMedia {:component "img"
-                       :max-height 500
-                       :max-width 500
+                       :maxheight 500
+                       :maxwidth 500
                        :class-name "rounded-full"
                        :image "https://res.cloudinary.com/schae/image/upload/f_auto,q_auto/v1546889699/cheffy/become-a-chef.jpg"
                        :alt "become a chef"}]]]
       [:> Grid {:item true
                 :xs 6
                 :display "flex"
-                :direction "column"
+                :sx {:flex-direction "column"}
                 :gap 3
                 :justify-content "flex-start"}
        (for [{:keys [header sub-header]} steps]
          ^{:key header}
-         [:> Card {:sx {:max-width "70%"}}
+         [:> Card {:sx {:maxwidth "70%"}}
           [:> Box {:display "flex"
                    :justify-content "flex-start"
-                   :max-width "95%"}
+                   :maxwidth "95%"}
            [:> Box {:display "flex"
                     :justify-content "center"
                     :pl 2

@@ -1,5 +1,6 @@
 (ns playground.helpers
-  (:require [cljs-time.core :as t]))
+  (:require [cljs-time.core :as t]
+            [clojure.string :as str]))
 
 ;; https://stackoverflow.com/questions/32511405/how-would-time-ago-function-implementation-look-like-in-clojure
 (defn time-ago
@@ -22,3 +23,12 @@
             Math/floor
             int
             (#(str % " " (:name unit) (when (> % 1) "s") " ago")))))))
+
+(defn format-price
+  [price]
+  (str "R$ " (/ price 100)))
+
+(defn valid-number
+  [number]
+  (and (not (js/isNaN (js/parseInt number)))
+       (number? (js/parseInt number))))

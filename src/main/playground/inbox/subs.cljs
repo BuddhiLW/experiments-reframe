@@ -19,8 +19,8 @@
 (rf/reg-sub
  :inbox/inbox-messages
  (fn [db _]
-   (let [inbox-id (get-in db [:nav :active-box])
-         messages (get-in db [:users inbox-id :inboxes])]
+   (let [inbox-id (get-in db [:nav :active-inbox])
+         messages (get-in db [:inboxes inbox-id :messages])]
      (sort-by :created-at reverse-cmp messages))))
 
 (rf/reg-sub

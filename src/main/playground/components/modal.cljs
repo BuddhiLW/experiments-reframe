@@ -26,5 +26,5 @@
                          :font-weight 500
                          :class-name "text-slate-600"}
           title]
-         [body]
-         [footer]]]])))
+         body
+         footer]]])))

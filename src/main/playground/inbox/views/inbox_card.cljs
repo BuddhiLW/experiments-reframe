@@ -14,6 +14,9 @@
   [:> Grid {:item true
             :pl 1
             :pt 1}
+            ;; :display "flex"
+            ;; :max-width "40vw"
+            ;; :flex-wrap "wrap"}
    [:> Grid {:container true
              :pl 2}
     [:> Typography {:class-name "flex items-center justify-between text-slate-600"}
@@ -36,9 +39,10 @@
     [:> Grid {:item true
               :gap 1
               :display "flex"
-              :direction "row"
+              :sx {:flex-direction "row"}
               :align-items "center"
-              :justify-content "space-between"}
+              :justify-content "space-between"
+              :flex-wrap "wrap"}
      [:> AccessTimeIcon {:class-name "text-gray-400"
                          :font-size "small"}]
      [:> Typography {:class-name "text-gray-400"
@@ -64,10 +68,12 @@
      [:> Card {:sx {:box-shadow 10
                     :border-radius "10px"}
                :class-name "transition hover:shadow-2xl hover:drop-shadow-2xl hover:-translate-y-1 ease-in-out delay-150 duration-500"}
+               ;; :flex-wrap "wrap"
+               ;; :max-width "40vw"}
       [:> Grid {:container true
                 :display "flex"
                 :direction "row"
-                :flex-direction "row"
+                ;; :flex-direction "row"
                 :p 3
                 :py 2
                 :align-items "center"}

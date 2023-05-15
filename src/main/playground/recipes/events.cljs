@@ -1,6 +1,20 @@
 (ns playground.recipes.events
   (:require
+   [ajax.core :as ajax]
+   [day8.re-frame.http-fx]
    [re-frame.core :as rf]))
+
+(def recipes-endpoint "https://gist.githubusercontent.com/jacekschae/50ffe6e8851a5dfe35e932682ca32d85/raw/06e8041d0abf86e2c5d809a334cf8f18d3d6303b/recipes.json")
+
+(rf/reg-event-fx
+ :http/get-recipes
+ (fn [{:keys [db]} _]
+   {:db (assoc-in db [:loading :recipes] true)
+    :http-xhrio {:method          :get
+                 :uri             recipes-endpoint
+                 :response-format (ajax/json-response-format {:keywords? true})
+                 :on-success      [:recipes/set-recipes]
+                 :on-failure      [:error/endpont-request :get-recipes]}}))
 
 (rf/reg-event-db
  :recipes/save-recipe

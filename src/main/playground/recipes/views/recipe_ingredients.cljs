@@ -3,64 +3,65 @@
    ["@mui/icons-material/AddCircleOutline" :default AddCircleOutlineIcon]
    ["@mui/icons-material/Create" :default CreateIcon]
    ["@mui/icons-material/DeleteOutline" :default DeleteOutlineIcon]
-   ["@mui/material" :refer [Typography Grid IconButton
-                            Box FormControl colors
-                            Paper Button]]
+   ["@mui/material" :refer [Box Button colors FormControl Grid IconButton
+                            Paper Typography]]
    [clojure.string :as str]
    [playground.components.form-group :refer [form-group]]
    [playground.components.modal :refer [modal]]
    [re-frame.core :as rf]
-   [reagent.core :as r]))
+   [reagent.core :as r]
+   [playground.helpers :as h]))
 
 (defn ingredients-modal
   [{:keys [save values]}]
   [modal {:modal-key :ingredient-editor
           :title "Ingredient"
           :body
-          (fn []
-            [:> Grid {:p 5
-                      :align-items "center"}
-             [:> FormControl  {:component "fieldset"
-                               :variant "standard"
-                               :fullWidth true
-                               :margin "normal"
-                               :size "small"}
-              [form-group {:id :name
-                           :label "Name"
-                           :type "text"
-                           :values values}]
-              [form-group {:id :amount
-                           :label "Amount"
-                           :type "number"
-                           :values values}]
-              [form-group {:id :measure
-                           :label "Measure"
-                           :type "text"
-                           :values values}]]])
+          [:form {:on-submit #(save % @values)}
+           [:> Grid {:p 5
+                     :align-items "center"}
+            [:> FormControl  {:component "fieldset"
+                              :variant "standard"
+                              :fullWidth true
+                              :margin "normal"
+                              :size "small"}
+             [form-group {:id :name
+                          :label "Name"
+                          :type "text"
+                          :values values}]
+             [form-group {:id :amount
+                          :label "Amount"
+                          :type "number"
+                          :values values}]
+             [form-group {:id :measure
+                          :label "Measure"
+                          :type "text"
+                          :values values
+                          :on-key-down #(when (= (.-which %) 13)
+                                          (save % @values))}]]]]
           :footer
-          (fn []
-            [:> Grid {:display "flex"
-                      :flex-direction "row"
-                      :justify-content "space-between"
-                      :px 5
-                      :py 3
-                      :sx {:border-radius "18px"
-                           :box-shadow 10}
-                      :bgcolor (get-in (js->clj colors :keywordize-keys true) [:grey :100])}
-             (when-let [ingredient-id (:id @values)]
-               [:> Button {:variant "contained"
-                           :color "warning"
-                           :on-click #(when (js/confirm "Are you sure?")
-                                        (rf/dispatch [:recipe/delete-ingredient ingredient-id]))}
-                "Delete"])
+          [:> Grid {:display "flex"
+                    :flex-direction "row"
+                    :justify-content "space-between"
+                    :px 5
+                    :py 3
+                    :sx {:border-radius "18px"
+                         :box-shadow 10}
+                    :bgcolor (get-in (js->clj colors :keywordize-keys true) [:grey :100])}
+           (when-let [ingredient-id (:id @values)]
              [:> Button {:variant "contained"
                          :color "warning"
-                         :on-click #(rf/dispatch [:recipes/close-modal])}
-              "Cancel"]
-             [:> Button {:variant "contained"
-                         :color "primary"
-                         :on-click #(save @values)}
-              "Save"]])}])
+                         :on-click #(when (js/confirm "Are you sure?")
+                                      (rf/dispatch [:recipe/delete-ingredient ingredient-id]))}
+              "Delete"])
+           [:> Button {:variant "contained"
+                       :color "warning"
+                       :on-click #(rf/dispatch [:recipes/close-modal])}
+            "Cancel"]
+           [:> Button {:variant "contained"
+                       :color "primary"
+                       :on-click #(save % @values)}
+            "Save"]]}])
 
 (defn ingredient-comp
   [{:keys [id name amount measure] :as ingredient} open-modal]
@@ -127,12 +128,16 @@
         open-modal (fn [{:keys [modal-key ingredient]}]
                      (rf/dispatch [:recipes/open-modal modal-key])
                      (reset! values ingredient))
-        save (fn [{:keys [id name amount measure]}]
-               (rf/dispatch [:recipe/save-ingredient {:id (or id (keyword (str "ingredient-" (random-uuid))))
-                                                      :name (str/trim name)
-                                                      :amount (js/parseInt amount)
-                                                      :measure (str/trim measure)}])
-               (reset! values initial-values))]
+        save (fn [e {:keys [id name amount measure]}]
+               (.preventDefault e)
+               (when (and (str/blank? name)
+                          (h/valid-number amount)
+                          (str/blank? measure))
+                 (rf/dispatch [:recipe/save-ingredient {:id (or id (keyword (str "ingredient-" (random-uuid))))
+                                                        :name (str/trim name)
+                                                        :amount (js/parseInt amount)
+                                                        :measure (str/trim measure)}])
+                 (reset! values initial-values)))]
                ;; (rf/dispatch [:recipes/close-modal]))
     ;; Container for ingredients
     (fn []

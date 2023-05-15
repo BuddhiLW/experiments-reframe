@@ -10,12 +10,10 @@
   (modal {:modal-key :agreement
           :title "Agreement"
           :body
-          (fn []
             [:> Grid {:p 5}
              [:> Typography {:variant "h5"}
-              "I agree to the terms and conditions of this website, in order to become a Chef."]])
+              "I agree to the terms and conditions of this website, in order to become a Chef."]]
           :footer
-          (fn []
             [:> Grid {:container true :spacing 2
                       :p 2}
              [:> Grid {:item true :xs 6}
@@ -31,7 +29,7 @@
                                "&:hover" {:bgcolor (util/color [:red :600])}}
                           :fullWidth true
                           :on-click #(rf/dispatch [:recipes/close-modal])}
-               "Cancel"]]])}))
+               "Cancel"]]]}))
 
 (defn agreement
   []
