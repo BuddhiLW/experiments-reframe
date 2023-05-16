@@ -1,1 +1,4 @@
-{}
+{:server/aleph   {:handler #ig/ref :playground/app
+                  :port 8666}
+ :playground/app {:jdbc-url #ig/ref :db/postgres}
+ :db/postgres    {:jdbc-url "jdbc-url"}}
