@@ -35,3 +35,7 @@ individually or connect to your REPL from your editor.
 ## License
 
 This project is [MIT licensed](./LICENSE).
+
+<!-- postgresql://username:password@host:port/dtabase_name -->
+<!-- postgresql://postgres:postgres@localhost:8080/playground -->
+<!-- psql postgresql://postgres:postgres@localhost:8080/postgres -->

@@ -1,8 +1,9 @@
 (ns user
-  (:require [integrant.repl :as ig-repl]
-            [integrant.core :as ig]
-            [integrant.repl.state :as state]
-            [playground.server]))
+  (:require
+   [integrant.core :as ig]
+   [integrant.repl :as ig-repl]
+   [integrant.repl.state :as state]
+   [playground.server]))
 
 (ig-repl/set-prep!
  (fn [] (-> "resources/config.edn" slurp ig/read-string)))
@@ -17,7 +18,9 @@
 
 (comment
   (app {:request-method :get
-        :uri "/"})
+        :uri "/v1/recipes"})
+  (app {:request-method :get
+        :uri "/swagger.json"})
   (go)
   (halt)
   (reset))

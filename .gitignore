@@ -29,3 +29,6 @@ compiled.css
 .clj-kondo
 .cpcache
 .lisp
+
+resources/config.edn
+dev/src/db.clj

@@ -10,10 +10,7 @@
 
 (defn app
   [env]
-  (ring/ring-handler
-   (ring/router ["/"
-                 {:get {:handler (fn [req] {:staus 200}
-                                   :body "Hello Reiti")}}])))
+  (router/routes env))
 
 (defmethod ig/prep-key :server/aleph
   [_ config]
@@ -31,23 +28,26 @@
   (println "\nStarted app")
   (app config))
 
-(defmethod ig/init-key :db/postgres
+(defmethod ig/prep-key :db/mysql
   [_ config]
   (println "\nConfigured db")
-  (:jdbc-url config))
+  (merge config {:jdbc-url (env :jdbc-url)}))
+
+;; (defmethod ig/init-key :db/mysql
+;;   [_ config]
+;;   (:jdbc-url config))
 
 (defmethod ig/halt-key! :server/aleph
   [_ aleph]
   (println "\nStopping server")
-  aleph
-  (println aleph)
-  (println (str "\nServer stopped on port " (.port aleph)))
   (.close aleph))
 
 (defn -main
   [config-file]
   (let [config (-> config-file slurp ig/read-string)]
-    (-> config ig/prep ig/init)))
+    (-> config
+        ig/prep
+        ig/init)))
 
 (comment
   (start)

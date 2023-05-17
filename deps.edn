@@ -23,4 +23,9 @@
         ;; org.clojure/clojure {:mvn/version "1.11.1"}}
 
  :aliases {:outdated {:extra-deps {com.github.liquidz/antq {:mvn/version "RELEASE"}}
-                      :main-opts ["-m" "antq.core"]}}}
+                      :main-opts ["-m" "antq.core"]}
+           :build {:deps {io.github.clojure/tools.build {:git/tag "v0.8.2" :git/sha "ba1a2bf"}}
+                   :ns-default build}}}
+
+;; :deps {io.github.clojure/tools.build {:git/tag "v0.8.2" :git/sha "ba1a2bf"}}
+;;   :ns-default build
