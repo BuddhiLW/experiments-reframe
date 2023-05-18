@@ -5,7 +5,8 @@
    [ring.adapter.jetty :as jetty]
    [reitit.ring :as ring]
    [integrant.core :as ig]
-   [playground.router :as router]))
+   [playground.router :as router]
+   [next.jdbc :as jdbc]))
     ;; (:gen-class))
 
 (defn app
@@ -28,14 +29,14 @@
   (println "\nStarted app")
   (app config))
 
-(defmethod ig/prep-key :db/mysql
+(defmethod ig/prep-key :db/postgres
   [_ config]
-  (println "\nConfigured db")
   (merge config {:jdbc-url (env :jdbc-url)}))
 
-;; (defmethod ig/init-key :db/mysql
-;;   [_ config]
-;;   (:jdbc-url config))
+(defmethod ig/init-key :db/postgres
+  [_ config]
+  (println "\nConfigured db")
+  (:jdbc-url config))
 
 (defmethod ig/halt-key! :server/aleph
   [_ aleph]

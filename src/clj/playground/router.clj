@@ -2,15 +2,26 @@
   (:require
    [muuntaja.core :as m]
    [playground.recipe.routes :as recipe]
+   [reitit.coercion.spec :as coercion-spec]
    [reitit.ring :as ring]
+   [reitit.ring.coercion :as coercion]
+   [reitit.ring.middleware.exception :as exception]
    [reitit.ring.middleware.muuntaja :as muuntaja]
+   ;; [ring.middleware.cors :as cors]
    [reitit.swagger :as swagger]
    [reitit.swagger-ui :as swagger-ui]))
 
+;;exception -> ring
+;;coercion -> ring
 (def router-config
-  {:data {:muuntaja     m/instance
+  {:data {:coercion     coercion-spec/coercion
+          :muuntaja     m/instance
           :middleware   [swagger/swagger-feature
-                         muuntaja/format-middleware]}})
+                         muuntaja/format-middleware
+                         exception/exception-middleware
+                         coercion/coerce-request-middleware
+                         coercion/coerce-response-middleware]}})
+                         ;; cors/wrap-cors]}})
 
 (def swagger-docs
   ["/swagger.json"

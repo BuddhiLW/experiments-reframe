@@ -9,7 +9,8 @@
 
 (def recipes-interceptors [check-spec-interceptor])
 
-(def recipes-endpoint "https://gist.githubusercontent.com/jacekschae/50ffe6e8851a5dfe35e932682ca32d85/raw/06e8041d0abf86e2c5d809a334cf8f18d3d6303b/recipes.json")
+;; (def recipes-endpoint "https://gist.githubusercontent.com/jacekschae/50ffe6e8851a5dfe35e932682ca32d85/raw/06e8041d0abf86e2c5d809a334cf8f18d3d6303b/recipes.json")
+(def recipes-endpoint "http://localhost:8666/v1/recipes")
 
 (defn keywordize-id
   [coll]

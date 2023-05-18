@@ -17,20 +17,24 @@
  :route-changed
  nav-interceptors
  (fn [{nav :db} [_ {:keys [handler route-params]}]]
-   (let [nav (assoc nav :active-page handler)]
+   (let [nav (assoc nav :active-page handler)
+         log-nav (js/console.log (str "nav: " nav))
+         log-handler (js/console.log (str "handler: " handler))]
      (case handler
-       :recipes
-       {:db nav
-        :dispatch [:http/get-recipes]}
+       :recipes {:db nav
+                 :dispatch [:http/get-recipes]}
 
-       :recipe
-       {:db (assoc nav :active-recipe (keyword (:recipe-id route-params)))
-        :dispatch [:http/get-recipes]}
+       :recipe {:db (assoc nav :active-recipe (keyword (:recipe-id route-params)))
+                :dispatch [:http/get-recipes]}
 
        :inbox
        {:db (assoc nav :active-inbox (keyword (:inbox-id route-params)))}
 
-       {:db (dissoc nav :active-recipe :active-inbox)}))))
+       {:db (do
+              (js/console.log (str '(dissoc nav :active-recipe :active-inbox)
+                                   (dissoc nav :active-recipe :active-inbox)))
+              (js/console.log (str "nav: " nav))
+              (dissoc nav :active-recipe :active-inbox))}))))
 
 (reg-event-db
  :set-active-nav
@@ -48,7 +52,7 @@
  :recipes/close-modal
  nav-interceptors
  (fn [nav _]
-   (assoc nav :active-modal  nil)))
+   (assoc nav :active-modal nil)))
 
 (comment)
  ;; (rf/dispatch [:set-active-nav :id-nav]))

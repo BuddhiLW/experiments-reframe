@@ -30,7 +30,7 @@
                          :sx {:height 500
                               :width 600}
                          :image (str (or img
-                                         "img/placeholder.jpg"))
+                                         "../img/placeholder.jpg"))
                          :alt name
                          :on-click (when author?
                                      #(open-modal {:modal-name :image-editor
