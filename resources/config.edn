@@ -1,17 +1,4 @@
 {:server/aleph   {:handler #ig/ref :playground/app
                   :port 8666}
  :playground/app {:jdbc-url #ig/ref :db/postgres}
- :db/postgres    {:jdbc-url "jdbc:postgresql://dpg-chhvkhvdvk4hea9mlo2g-a.oregon-postgres.render.com:5432/playground_9vj9?user=blw&password=ZF4LVIRR8Q4PtRxUSVfZGvWlkPkcJ5mW"}}
-
-;; jdbc:mysql://aws.connect.psdb.cloud:3306/playground-reframe?user=0um7rwf41xl4lhy7kjcj&password=pscale_pw_boTVAkrPIsPyIaPM4TVt9c7aK5Vc5CMP6KhuFkz1o88&serverTimezone=UTC-3
-;; postgres://blw:ZF4LVIRR8Q4PtRxUSVfZGvWlkPkcJ5mW@dpg-chhvkhvdvk4hea9mlo2g-a.oregon-postgres.render.com/playground_9vj9
-;; HOST=aws.connect.psdb.cloud
-;; USERNAME=72lmuf9nb19mu67kznrl
-;; PASSWORD=pscale_pw_aHlAIgS8evLmu6udcOTfSqKGTMN62Kog3vTSOLbFz8v
-;; DATABASE=playground-reframe
-
-;; postgres://blw:ZF4LVIRR8Q4PtRxUSVfZGvWlkPkcJ5mW@dpg-chhvkhvdvk4hea9mlo2g-a.oregon-postgres.render.com/playground_9vj9
-;; {:server/jetty {:handler #ig/ref :cheffy/app
-;;                 :port 3000}
-;;  :cheffy/app   {:jdbc-url #ig/ref :db/postgres}
-;;  :db/postgres  {:jdbc-url "jdbc-url"}}
+ :db/postgres    {:jdbc-url "jdbc-url"}}
