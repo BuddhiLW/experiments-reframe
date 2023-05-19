@@ -13,10 +13,10 @@
 (defn footer
   []
   (fn []
-    (let [{:keys [id saved-count prep-time]} @(rf/subscribe [:recipes/recipe])
+    (let [{:recipe/keys [uid prep_time favorite_count]} @(rf/subscribe [:recipes/recipe])
           {:keys [saved]} @(rf/subscribe [:recipes/user])
           logged-in? @(rf/subscribe [:logged-in?])
-          saved? (contains? saved id)
+          saved? (contains? saved uid)
           author? @(rf/subscribe [:recipe/author?])
           can-save? (and logged-in? (not author?) (not saved?))]
       [:> Grid {:container true
@@ -29,18 +29,18 @@
                  :align-items "center"}
         (if can-save?
           [:> CardActions
-           [:> IconButton {:on-click #(rf/dispatch [:recipes/save-recipe id])}
+           [:> IconButton {:on-click #(rf/dispatch [:recipes/save-recipe uid])}
             [:> FavoriteBorderOutlined {:class-name "text-pink-500"
                                         :sx {:font-size 40}
                                         :href "#"}]]]
           [:> CardActions
            [:> IconButton
             [:> FavoriteOutlined {:class-name "text-red-500"
-                                  :on-click  (when saved? #(rf/dispatch [:recipes/unsave-recipe id]))
+                                  :on-click  (when saved? #(rf/dispatch [:recipes/unsave-recipe uid]))
                                   :sx {:font-size 40}}]]])
         [:> Typography {:variant "body1"
                         :class-name "text-slate-700"}
-         (str saved-count)]]
+         (str favorite_count)]]
        [:> Grid {:item true
                  :align-items "center"
                  :p 2
@@ -51,17 +51,15 @@
                          :class-name "pr-3"}]
         [:> Typography {:variant "body1"
                         :class-name "text-slate-700"}
-         (str prep-time " min")]]])))
+         (str prep_time " min")]]])))
 
 (defn recipe-info
   []
   (fn []
-    (let [{:keys [id cook]} @(rf/subscribe [:recipes/recipe])
+    (let [{:recipe/keys [recipe_id uid]} @(rf/subscribe [:recipes/recipe])
           {:keys [saved]} @(rf/subscribe [:recipes/user])
-          ;; logged-in? @(rf/subscribe [:logged-in?])
-          ;; saved? (contains? saved id)
           author? @(rf/subscribe [:recipe/author?])]
-          ;; can-save? (and logged-in? (not author?) (not saved?))]
+      ^{:key recipe_id}
       [:> Grid {:item true}
        [:> Paper {:pb 4
                   :sx {:box-shadow 3
@@ -71,9 +69,6 @@
                   :class-name (when author?
                                 (str "transition hover:shadow-2xl hover:drop-shadow-2xl hover:-translate-y-1 ease-in-out delay-150 duration-500" "flex-wrap")
                                 "flex-wrap")}
-
-        ;; [:> CssBaseline]
-        ;; [:> ThemeProvider {:theme cards}
         [:> Grid {:item true :xs 12}
          [:> Grid {:container true
                    :p 2
@@ -81,7 +76,7 @@
           [:> Typography {:variant "p"
                           :px 2
                           :class-name "text-3xl decoration-2 text-slate-700"}
-           cook]]]
+           uid]]]
         [recipe-img]
         [footer]]
-       [ingredients]])))
+       #_[ingredients]])))

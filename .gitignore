@@ -31,5 +31,8 @@ compiled.css
 .lisp
 
 /resources/config.edn
+resources/config.edn
 /dev/src/db.clj
+dev/src/db.clj
 /resources/backup
+resources/backup

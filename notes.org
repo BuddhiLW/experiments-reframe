@@ -23,3 +23,31 @@
  (reitit.core/match-by-path router "/v1/recipes/1234"))
 ;; => {:path {:recipe-id 1234}}
 #+end_src
+* Unit testing
+- [[https://github.com/weavejester/integrant][Integrant]]
+- [[https://github.com/ring-clojure/ring-mock][Ring mock]]
+- [[https://github.com/metosin/muuntaja][Muuntaja]]
+#+begin_src clojure :eval no
+(ns playground.test-system
+  (:require
+   [clojure.test :as t]
+   [integrant.repl.state :as state]
+   [ring.mock.request :as mock]
+   [muuntaja.core :as m]))
+
+(defn test-endpoint
+  ([method uri]
+   (test-endpoint method uri nil))
+  ([method uri opts]
+   (let [app (-> state/system :playground/app)
+         request (app (-> (mock/request method uri)
+                          (cond-> (:body opts) (mock/json-body (:body opts)))))]
+     (update request :body (partial m/decode "application/json")))))
+
+(comment
+  ;; (= (fn [data] (m/decode "application/json" data)) (partial m/decode "application/json"))
+  (test-endpoint :get "/v1/recipes")
+  (test-endpoint :post "/v1/recipes" {:img "string-img"
+                                      :name "string-name"
+                                      :prep-time 30}))
+#+end_src

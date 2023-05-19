@@ -17,6 +17,8 @@
                  [net.clojars.kelveden/ring-jwt "2.4.0"]
                  [com.github.seancorfield/honeysql "2.4.1026"]
                  [migratus "1.4.9"]
+                 [ring-cors "0.1.13"]
+                 [camel-snake-kebab "0.4.3"]
                  ;; https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12
                  [org.slf4j/slf4j-log4j12 "2.0.7" :extension "pom"]]
 

@@ -4,7 +4,6 @@
 (rf/reg-sub
  :recipes
  (fn [db _]
-   ;; (js/console.log "(vals recipes)" (:recipes db))
    (:recipes db)))
 
 (rf/reg-sub
@@ -19,7 +18,7 @@
  :filter/public
  :<- [:recipes]
  (fn [recipes _]
-   (filter #(= (:public? %) true) (vals recipes))))
+   (filter #(= (:recipe/public %) true) (vals recipes))))
 
 (rf/reg-sub
  :recipe/author?
@@ -74,3 +73,9 @@
  (fn [[recipes user] _]
    (let [saved (:saved user)]
      (filter #(contains? saved (:id %)) (vals recipes)))))
+
+(rf/reg-sub
+ :recipes/loaded?
+ (fn [db [_]]
+   (let [log (js/console.log "recipes loaded?" (not (get-in db [:loading :recipes])))]
+     (not (get-in db [:loading :recipes])))))

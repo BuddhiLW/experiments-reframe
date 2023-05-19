@@ -22,7 +22,18 @@
 (def app (-> state/system :playground/app))
 (def db (-> state/system :db/postgres))
 
+;;
 (comment
+  (sql/insert! db :recipe {:prep-time 0,
+                           :name "string",
+                           :img "string",
+                           :recipe-id "d9f49200-0ba2-42d1-a253-e85b58abe295",
+                           :uid "mike@mailinator.com",
+                           :public false,
+                           :favorite-count 0})
+  (sql/update! db :recipe {:name "string"} {:recipe-id "d9f49200-0ba2-42d1-a253-e85b58abe295"})
+  (sql/delete! db :recipe {:recipe-id "d9f49200-0ba2-42d1-a253-e85b58abe295"})
+
   (app {:request-method :get
         :uri "/v1/recipes"})
   (app {:request-method :get
@@ -57,12 +68,38 @@
   (require '[reitit.coercion])
   (require '[reitit.coercion.spec])
   (app {:request-method :get
-        :uri "/v1/recipes/1234"})
+        :uri "/v1/recipes"})
   (->
    (app {:request-method :get
          :uri "/v1/recipes/a3dde84c-4a33-45aa-b0f3-4bf9ac997680"})
    :body
    (slurp))
+
+  (-> (app {:request-method :post
+            :uri "/v1/recipes"
+            :body-params {:name "my recipe"
+                          :prep-time 49
+                          :img "image-url"}})
+      :body
+      (slurp))
+
+  (->
+   (app {:request-method :post
+         :uri "/v1/recipes"
+         :body-params {:name "Pasta Carbonara"
+                       :prep-time 10
+                       :img ""}})
+   :body
+   (slurp))
+
+  (-> (app {:request-method :post
+            :uri "/v1/recipes"
+            :body-params {:name "my recipe"
+                          :prep-time 49
+                          :img "image-url"}})
+      :body
+      (slurp))
+
   (def router
     (reitit.core/router
      ["/v1/recipes/:recipe-id"

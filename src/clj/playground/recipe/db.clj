@@ -1,5 +1,6 @@
 (ns playground.recipe.db
   (:require
+   [clojure.pprint :as pprint]
    [next.jdbc :as jdbc]
    [next.jdbc.sql :as sql]))
 
@@ -13,15 +14,33 @@
            :drafts drafts})
         {:public public}))))
 
+(defn insert-recipe!
+  [db recipe]
+  (pprint/pprint (assoc recipe :public false :favorite-count 0))
+  (sql/insert! db :recipe (assoc recipe :public false
+                                 :favorite-count 0)))
+
 (defn find-recipe-by-id
   [db recipe-id]
   (with-open [conn (jdbc/get-connection db)]
-    (let [recipe-id-query {:recipe_id recipe-id}
-          [recipe]    (sql/find-by-keys conn :recipe recipe-id-query)
-          steps       (sql/find-by-keys conn :step  recipe-id-query)
-          ingredients (sql/find-by-keys conn :ingredient recipe-id-query)]
+    (let [[recipe] (sql/find-by-keys conn :recipe {:recipe_id recipe-id})
+          steps (sql/find-by-keys conn :step {:recipe_id recipe-id})
+          ingredeints (sql/find-by-keys conn :ingredient {:recipe_id recipe-id})]
       (when (seq recipe)
         (assoc recipe
                :recipe/steps steps
-               :recipe/ingredients ingredients)))))
-;; "auth0|5ef440986e8fbb001355fd9c"
+               :recipe/ingredients ingredeints)))))
+
+(defn update-recipe!
+  [db recipe]
+  (-> db
+      (sql/update! :recipe recipe (select-keys recipe [:recipe_id]))
+      :next.jdbc/update-count
+      (pos?)))
+
+(defn delete-recipe!
+  [db recipe-id-map]
+  (-> db
+      (sql/delete! :recipe recipe-id-map)
+      :next.jdbc/update-count
+      (pos?)))

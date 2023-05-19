@@ -2,12 +2,9 @@
   (:require
    [aleph.http :as http]
    [environ.core :refer [env]]
-   [ring.adapter.jetty :as jetty]
-   [reitit.ring :as ring]
    [integrant.core :as ig]
-   [playground.router :as router]
-   [next.jdbc :as jdbc]))
-    ;; (:gen-class))
+   [next.jdbc :as jdbc]
+   [playground.router :as router]))
 
 (defn app
   [env]
@@ -22,8 +19,6 @@
   (println (str "\nServer running on port " port))
   (http/start-server handler {:port port}))
 
-  ;; (jetty/run-jetty handler {:port port :join false}))
-
 (defmethod ig/init-key :playground/app
   [_ config]
   (println "\nStarted app")
@@ -34,9 +29,9 @@
   (merge config {:jdbc-url (env :jdbc-url)}))
 
 (defmethod ig/init-key :db/postgres
-  [_ config]
+  [_ {:keys [jdbc-url]}]
   (println "\nConfigured db")
-  (:jdbc-url config))
+  (jdbc/with-options jdbc-url jdbc/snake-kebab-opts))
 
 (defmethod ig/halt-key! :server/aleph
   [_ aleph]

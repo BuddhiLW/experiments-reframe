@@ -7,9 +7,18 @@
    [reitit.ring.coercion :as coercion]
    [reitit.ring.middleware.exception :as exception]
    [reitit.ring.middleware.muuntaja :as muuntaja]
-   ;; [ring.middleware.cors :as cors]
    [reitit.swagger :as swagger]
-   [reitit.swagger-ui :as swagger-ui]))
+   [reitit.swagger-ui :as swagger-ui]
+   [ring.middleware.cors :as cors]))
+
+(def swagger-docs
+  ["/swagger.json"
+   {:get {:no-doc true
+          :swagger {:basePath "/"
+                    :info {:title "Playground API"
+                           :description "REST APIs, for Cheffy app."
+                           :version "1.0.0"}}
+          :handler (swagger/create-swagger-handler)}}])
 
 ;;exception -> ring
 ;;coercion -> ring
@@ -20,17 +29,12 @@
                          muuntaja/format-middleware
                          exception/exception-middleware
                          coercion/coerce-request-middleware
-                         coercion/coerce-response-middleware]}})
-                         ;; cors/wrap-cors]}})
-
-(def swagger-docs
-  ["/swagger.json"
-   {:get {:no-doc true
-          :swagger {:basePath "/"
-                    :info {:title "Playground API"
-                           :description "REST APIs, for Cheffy app."
-                           :version "1.0.0"}}
-          :handler (swagger/create-swagger-handler)}}])
+                         coercion/coerce-response-middleware
+                         ;; https://clojurians.slack.com/archives/C03S1KBA2/p1678681740112949
+                         [cors/wrap-cors
+                          :access-control-allow-origin #".*"
+                          :access-control-allow-methods [:get :post :put :patch :delete]
+                          :Access-Control-Allow-Credentials "true"]]}})
 
 (defn routes
   [env]

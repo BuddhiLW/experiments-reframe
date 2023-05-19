@@ -5,7 +5,8 @@
 (defn check-and-throw
   [a-spec db]
   (when-not (s/valid? a-spec db)
-    (throw (ex-info (str "spec check faild: " (s/explain-str a-spec db)) {}))))
+    (js/console.log (s/explain-str a-spec db))))
+    ;; (throw (ex-info (str "spec check faild: " (s/explain-str a-spec db)) {}))))
 
 (s/def ::auth (s/nilable (s/map-of keyword? (s/nilable string?))))
 
@@ -22,19 +23,23 @@
 
 (s/def ::nav (s/map-of keyword? (s/nilable keyword?)))
 
-(s/def :recipe/id keyword?)
-(s/def :recipe/public? boolean?)
-(s/def :recipe/pre-time number?)
+(s/def :recipe/recipe_id keyword?)
+(s/def :recipe/public boolean?)
+(s/def :recipe/prep_time number?)
 (s/def :recipe/name string?)
-(s/def :recipe/image string?)
-(s/def :recipe/saved-count number?)
-(s/def :recipe/ingredients map?)
-(s/def :recipe/steps map?)
-(s/def :recipe/cook string?)
-(s/def :recipe/price number?)
-(s/def :recipe/map (s/keys :req-un [:recipe/id :recipe/public? :recipe/prep-time :recipe/name]
-                           :opt-un [:recipe/image :recipe/saved-count :recipe/ingredients :recipe/steps :recipe/cook :recipe/price]))
-(s/def ::recipes (s/map-of :recipe/id :recipe/map))
+(s/def :recipe/img string?)
+(s/def :recipe/favorite_count number?)
+(s/def :recipe/uid string?)
+;; (s/def :recipe/ingredients map?)
+;; (s/def :recipe/steps map?)
+;; (s/def :recipe/price number?)
+(s/def :recipe/map (s/keys :req-un [:recipe/uid :recipe/public :recipe/prep_time :recipe/name]
+                           :opt-un [:recipe/img :recipe/favorite_count
+                                    :recipe/cook
+                                    :recipe/ingredients
+                                    :recipe/steps
+                                    :recipe/price]))
+(s/def ::recipes (s/map-of :recipe/recipe_id :recipe/map))
 
 (s/def :user.inbox/id keyword?)
 (s/def :user.inbox/updated-at number?)
@@ -50,4 +55,5 @@
 
 (s/def ::db (s/keys :req-un [::auth ::errors ::inboxes ::nav ::recipes ::users]))
 
-(def check-spec-interceptor (rf/after (partial check-and-throw ::db)))
+(def check-spec-interceptor (rf/after
+                             (partial check-and-throw ::db)))

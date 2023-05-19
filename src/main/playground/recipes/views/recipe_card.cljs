@@ -6,10 +6,10 @@
    ["@mui/material/styles" :refer [ThemeProvider]]
    [playground.router :as router]
    [playground.theme :refer [cards]]))
-
 (defn recipe-card [recipe]
-  (let [{:keys [name saved-count prep-time img id]} recipe]
-    ^{:key id}
+  (let [{:recipe/keys [name favorite_count prep_time img recipe_id]} recipe
+        log (js/console.log name favorite_count prep_time img recipe_id)]
+    ^{:key recipe_id}
     [:> Grid {:px 2}
      [:> Paper {:pb 4
                 :sx {:box-shadow 3}
@@ -21,7 +21,7 @@
                  :class-name "hover:shadow-2xl"}
         [:> CardMedia {:class "img-card"
                        :as "a"
-                       :href (router/path-for :recipe :recipe-id id)
+                       :href (router/path-for :recipe :recipe-id recipe_id)
                        :sx {:height 300
                             :width 400}
                        :image (str (or img
@@ -48,7 +48,7 @@
                                  :class-name "pr-2"}]
            [:> Typography {:variant "body1"
                            :class-name "text-slate-700"}
-            (str saved-count)]]]
+            (str favorite_count)]]]
 
          [:> Grid {:item true
                    :xs 5
@@ -63,4 +63,4 @@
                             :class-name "pr-3"}]
            [:> Typography {:variant "body1"
                            :class-name "text-slate-700"}
-            (str prep-time " min")]]]]]]]]))
+            (str prep_time " min")]]]]]]]]))

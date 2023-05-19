@@ -17,14 +17,15 @@
  :route-changed
  nav-interceptors
  (fn [{nav :db} [_ {:keys [handler route-params]}]]
-   (let [nav (assoc nav :active-page handler)
-         log-nav (js/console.log (str "nav: " nav))
-         log-handler (js/console.log (str "handler: " handler))]
+   (let [nav              (assoc nav :active-page handler)
+         log-route-params (js/console.log (str "route-params: " route-params))
+         log-nav          (js/console.log (str "nav: " nav))
+         log-handler      (js/console.log (str "handler: " handler))]
      (case handler
-       :recipes {:db nav
+       :recipes {:db       nav
                  :dispatch [:http/get-recipes]}
 
-       :recipe {:db (assoc nav :active-recipe (keyword (:recipe-id route-params)))
+       :recipe {:db       (assoc nav :active-recipe (keyword (:recipe-id route-params)))
                 :dispatch [:http/get-recipes]}
 
        :inbox

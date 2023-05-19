@@ -20,7 +20,7 @@
                      (rf/dispatch [:recipes/open-modal modal-name])
                      (reset! values recipe))]
     (fn []
-      (let [{:keys [img name]} @(rf/subscribe [:recipes/recipe])]
+      (let [{:recipe/keys [img name]} @(rf/subscribe [:recipes/recipe])]
         [:<>
          [:> Card {:p 2
                    :sx {:box-shadow 10

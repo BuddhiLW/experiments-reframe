@@ -1,5 +1,8 @@
 (ns playground.responses
-  (:require [spec-tools.data-spec :as ds]))
+  (:require
+   [spec-tools.data-spec :as ds]))
+
+(def base-url "http://localhost:8666")
 
 (def step
   {:step/step_id     string?
@@ -29,4 +32,3 @@
 (def recipes
   {:public          [recipe]
    (ds/opt :drafts) [recipe]})
-

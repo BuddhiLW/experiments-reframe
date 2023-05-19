@@ -64,7 +64,7 @@
             "Save"]]}])
 
 (defn ingredient-comp
-  [{:keys [id name amount measure] :as ingredient} open-modal]
+  [{:recipe/keys [id name amount measure] :as ingredient} open-modal]
   (fn []
     (let [author? @(rf/subscribe [:recipe/author?])]
       [:<>
@@ -138,15 +138,13 @@
                                                         :amount (js/parseInt amount)
                                                         :measure (str/trim measure)}])
                  (reset! values initial-values)))]
-               ;; (rf/dispatch [:recipes/close-modal]))
-    ;; Container for ingredients
     (fn []
       (let [ingredients @(rf/subscribe [:recipe/ingredients])
             author? @(rf/subscribe [:recipe/author?])]
         [:<>
          (when author?
-           [ingredients-modal {:values values
-                               :save save}])
+           #_[ingredients-modal {:values values
+                                 :save save}])
          [:> Box {:pt 2
                   :display "flex"
                   :class-name "flex-wrap"}
@@ -157,8 +155,8 @@
                      :class-name "flex-wrap"}
 
              ;; Header ingredients
-           [header-ingredients {:open-modal open-modal
-                                :values initial-values}]
+           #_[header-ingredients {:open-modal open-modal
+                                  :values initial-values}]
              ;; Ingredients
            [:> Grid {:container true :spacing 2
                      :pl 2
@@ -167,9 +165,9 @@
                      :sx {:min-width 0
                           :max-width "600px"}}
             [:hr {:class-name "w-full border-0 h-px my-2 bg-gray-200 dark:bg-gray-700"}]
-            [:<>
-             (for [ingredient ingredients]
-               ^{:key (:id ingredient)}
-               [ingredient-comp ingredient open-modal])]]]]]))))
+            #_[:<>
+               (for [ingredient ingredients]
+                 ^{:key (:id ingredient)}
+                 [ingredient-comp ingredient open-modal])]]]]]))))
 
               ;; Modal add a Ingredient
