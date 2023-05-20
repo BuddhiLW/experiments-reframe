@@ -1,12 +1,14 @@
 (ns playground.recipe.routes
   (:require
+   [playground.middleware :as mw]
    [playground.recipe.handlers :as recipe]
    [playground.responses :as responses]))
 
 (defn routes
   [env]
   (let [db (:jdbc-url env)]
-    ["/recipes" {:swagger {:tags ["recipes"]}}
+    ["/recipes" {:swagger {:tags ["recipes"]}
+                 :middleware [[mw/wrap-auth0]]}
      [""
       {:get  {:handler   (recipe/list-all-recipes db)
               :responses {200 {:body responses/recipes}}
@@ -24,9 +26,7 @@
                 :summary    "Retrieve recipe"}
        :put    {:handler    (recipe/update-recipe! db)
                 :parameters {:path {:recipe-id string?}
-                             :body {:name      string?
-                                    :prep-time number?
-                                    :img       string?}}
+                             :body {:name string? :prep-time int? :public boolean? :img string?}}
                 :responses  {204 {:body nil?}}
                 :summary    "Update recipe"}
        :delete {:handler    (recipe/delete-recipe! db)

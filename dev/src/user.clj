@@ -5,9 +5,7 @@
    [integrant.repl.state :as state]
    [next.jdbc :as jdbc]
    [next.jdbc.sql :as sql]
-   [playground.server]
-   [playground.recipe.routes :as recipe]
-   [playground.router :as router]))
+   [playground.server]))
 
 (ig-repl/set-prep!
  (fn [] (-> "resources/config.edn"

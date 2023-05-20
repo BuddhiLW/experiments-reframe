@@ -1,7 +1,7 @@
 (ns playground.recipes-tests
   (:require
    [clojure.test :as t]
-   [playground.server :as server]
+   [muuntaja.core :as m]
    [playground.test-system :as test-system]))
 
 (t/deftest recipes-tests
@@ -14,8 +14,10 @@
 
     (t/testing "Without auth -- public"
       (let [{:keys [status body]} (test-system/test-endpoint :get "/v1/recipes" {:auth false})]
-        (t/is (= status 200))
+        (t/is (= 200 status))
         (t/is (vector? (:public body)))
-        (t/is (nil? (:drafts body)))))
+        (t/is (nil? (:drafts body)))))))
 
-    (t/testing "Without auth -- drafts")))
+    ;; (t/testing "Without auth -- drafts")))
+
+;; (m/decode "application/json" "{\"name\":\"string-name\",\"prep-time\":30,\"img\":\"string-img\"}")
