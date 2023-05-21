@@ -21,8 +21,7 @@
   [db]
   (fn [request]
     (let [recipe-id (str (UUID/randomUUID))
-          uid (-> request :claims :sub)
-          ;; log-recipe (pprint/pprint (-> request :parameters :body))
+          uid (or (-> request :claims :sub) "mike@mailinator.com")
           recipe (-> request :parameters :body)]
       (recipe-db/insert-recipe! db (assoc recipe :recipe-id recipe-id :uid uid))
       (rr/created (str responses/base-url "/recipes/" recipe-id) {:recipe-id recipe-id}))))
@@ -60,3 +59,4 @@
         (rr/not-found {:type "recipe-not-found"
                        :message "Recipe not found"
                        :data (str "recipe-id " recipe-id)})))))
+

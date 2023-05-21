@@ -9,7 +9,8 @@
    [reitit.ring.middleware.muuntaja :as muuntaja]
    [reitit.swagger :as swagger]
    [reitit.swagger-ui :as swagger-ui]
-   [ring.middleware.cors :as cors]))
+   [ring.middleware.cors :as cors]
+   [playground.stripe.routes :as stripe]))
 
 (def swagger-docs
   ["/swagger.json"
@@ -32,7 +33,8 @@
                          coercion/coerce-response-middleware
                          ;; https://clojurians.slack.com/archives/C03S1KBA2/p1678681740112949
                          [cors/wrap-cors
-                          :access-control-allow-origin #".*"
+                          :access-control-allow-origin [#".*" #"https://checkout.stripe.com/*"
+                                                        #"http://localhost*"]
                           :access-control-allow-methods [:get :post :put :patch :delete]
                           :Access-Control-Allow-Credentials "true"]]}})
 
@@ -42,7 +44,8 @@
    (ring/router
     [swagger-docs
      ["/v1"
-      (recipe/routes env)]]
+      (recipe/routes env)
+      (stripe/routes env)]]
     router-config)
    (ring/routes
     (swagger-ui/create-swagger-ui-handler {:path "/"}))))

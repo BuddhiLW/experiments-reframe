@@ -44,7 +44,10 @@
    [playground.recipes.views.saved-page :refer [saved-page]]
    [playground.router :as router]
    [playground.recipes.events]
-   [playground.recipes.subs]))
+   [playground.recipes.subs]
+   ;--- stripe ---
+   [playground.stripe.views.stripe-example :refer [stripe-page]]
+   [playground.stripe.events]))
 
 ;; ---------- END requires ---------
 (defn pages
@@ -59,6 +62,7 @@
     :recipes           [recipes-page]
     :recipe            [recipe-page]
     :saved             [saved-page]
+    :stripe            [stripe-page]
     [recipes-page]))
 
 (defn- main []

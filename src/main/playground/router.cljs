@@ -12,7 +12,8 @@
                                    [:inbox-id] :inbox}
                   "profile"       :profile
                   "sign-up"       :sign-up
-                  "log-in"        :log-in}])
+                  "log-in"        :log-in
+                  "stripe"        :stripe}])
 
 (def history
   (let [dispatch #(rf/dispatch [:route-changed %])

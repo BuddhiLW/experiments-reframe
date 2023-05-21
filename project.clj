@@ -19,6 +19,8 @@
                  [migratus "1.4.9"]
                  [ring-cors "0.1.13"]
                  [camel-snake-kebab "0.4.3"]
+                 [dev.gethop/payments.stripe "0.3.8"]
+                 [com.stripe/stripe-java "22.20.0"]
                  ;; https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12
                  [org.slf4j/slf4j-log4j12 "2.0.7" :extension "pom"]]
 

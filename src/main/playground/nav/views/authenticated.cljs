@@ -27,7 +27,11 @@
                    {:id :profile
                     :name "Profile"
                     :href (router/path-for :profile)
-                    :dispatch #(rf/dispatch [:set-active-nav :profile])}]]
+                    :dispatch #(rf/dispatch [:set-active-nav :profile])}
+                   {:id :stripe
+                    :name "Stripe"
+                    :href (router/path-for :stripe)
+                    :dispatch #(rf/dispatch [:set-active-nav :stripe])}]]
     [:<>
      [:> Box {:display "flex"
               :justify-content "flex-end"

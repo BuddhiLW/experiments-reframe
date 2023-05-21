@@ -242,6 +242,24 @@
             (js/console.log "log/sucess" response)))
             ;; {:db (assoc-in db [:loading :recipes] false)
             ;;  :dispatch [:recipes/set-recipes response]}))
+
+#_(rf/reg-event-fx
+   :http/stripe-checkout
+   :<- [:uid]
+   (fn [{:keys [db uid] :as map} _]
+     (js/console.log "http/stripe-checkout" map)
+     (let [price (get-in db [:checkout :price])]
+       {:db (-> db
+                (assoc-in [:nav :checkout] true)
+                (assoc-in [:checkout :price] 0))
+        :http-xhrio {:method      :post
+                     :uri         (h/endpoint "v1" "checkout")
+                     :format      (ajax/json-request-format)
+                     :params      {:uid uid
+                                   :price price}
+                     :on-success  [:success/stripe-checkout-success]
+                     :on-failure  [:error/endpoint-request]}})))
+
 (comment
   (ajax/POST (h/endpoint "v1" "recipes")
     {:params {:name "Pasta Carbonara"

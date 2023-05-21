@@ -16,8 +16,8 @@
 
 (defn insert-recipe!
   [db recipe]
-  (pprint/pprint (assoc recipe :public false :favorite-count 0))
-  (sql/insert! db :recipe (assoc recipe :public false
+  (sql/insert! db :recipe (assoc recipe
+                                 :public false
                                  :favorite-count 0)))
 
 (defn find-recipe-by-id
@@ -44,3 +44,4 @@
       (sql/delete! :recipe recipe-id-map)
       :next.jdbc/update-count
       (pos?)))
+

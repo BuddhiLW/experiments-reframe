@@ -4,7 +4,8 @@
    [environ.core :refer [env]]
    [integrant.core :as ig]
    [next.jdbc :as jdbc]
-   [playground.router :as router]))
+   [playground.router :as router]
+   [clojure.pprint :as pprint]))
 
 (defn app
   [env]
@@ -38,6 +39,16 @@
   (println "\nStopping server")
   (.close aleph))
 
+(defmethod ig/prep-key :dev.gethop.paymets/stripe
+  [_ config]
+  (println config)
+  (merge config {:api-key (env :api-key)}))
+
+(defmethod ig/init-key :dev.gethop.paymets/stripe
+  [_ config]
+  (println "\nConfigured stripe")
+  (:api-key config))
+
 (defn -main
   [config-file]
   (let [config (-> config-file slurp ig/read-string)]
@@ -49,4 +60,6 @@
   (start)
   (app {:request-method :get
         :uri "/"})
-  (-main))
+  (-main)
+  (pprint/pprint (env :api-key))
+  (pprint/pprint (env :jdbc-url)))

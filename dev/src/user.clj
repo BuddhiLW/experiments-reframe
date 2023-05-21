@@ -32,6 +32,8 @@
   (sql/update! db :recipe {:name "string"} {:recipe-id "d9f49200-0ba2-42d1-a253-e85b58abe295"})
   (sql/delete! db :recipe {:recipe-id "d9f49200-0ba2-42d1-a253-e85b58abe295"})
 
+  (app {:request-method :post
+        :uri "/v1/stripe/create-checkout-session"})
   (app {:request-method :get
         :uri "/v1/recipes"})
   (app {:request-method :get

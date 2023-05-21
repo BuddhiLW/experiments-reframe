@@ -1,7 +1,9 @@
-{:server/aleph   {:handler #ig/ref :playground/app
-                  :port 8666}
- :playground/app {:jdbc-url #ig/ref :db/postgres}
- :db/postgres    {:jdbc-url "jdbc:postgresql://dpg-chhvkhvdvk4hea9mlo2g-a.oregon-postgres.render.com:5432/playground_9vj9?user=blw&password=ZF4LVIRR8Q4PtRxUSVfZGvWlkPkcJ5mW"}}
+{:server/aleph              {:handler #ig/ref :playground/app
+                             :port    8666}
+ :playground/app            {:jdbc-url #ig/ref :db/postgres
+                             :api-key  #ig/ref :dev.gethop.paymets/stripe}
+ :db/postgres               {:jdbc-url "jdbc:postgresql://dpg-chhvkhvdvk4hea9mlo2g-a.oregon-postgres.render.com:5432/playground_9vj9?user=blw&password=ZF4LVIRR8Q4PtRxUSVfZGvWlkPkcJ5mW"}
+ :dev.gethop.paymets/stripe {:api-key  "sk_test_51MRNOfEu1RjbDj23gf1Q54CQXMPj4kLa1eXTMIIDDwPB79TOTj1DjfaLWt8GIOExqbc6tIYtrlYsEklOZS8QlDpF00iD7DZVFG"}}
 
 ;; jdbc:mysql://aws.connect.psdb.cloud:3306/playground-reframe?user=0um7rwf41xl4lhy7kjcj&password=pscale_pw_boTVAkrPIsPyIaPM4TVt9c7aK5Vc5CMP6KhuFkz1o88&serverTimezone=UTC-3
 ;; postgres://blw:ZF4LVIRR8Q4PtRxUSVfZGvWlkPkcJ5mW@dpg-chhvkhvdvk4hea9mlo2g-a.oregon-postgres.render.com/playground_9vj9
