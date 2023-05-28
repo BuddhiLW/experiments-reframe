@@ -13,7 +13,8 @@
                   "profile"       :profile
                   "sign-up"       :sign-up
                   "log-in"        :log-in
-                  "stripe"        :stripe}])
+                  "stripe"        :stripe
+                  "upload-file"   :upload-file}])
 
 (def history
   (let [dispatch #(rf/dispatch [:route-changed %])

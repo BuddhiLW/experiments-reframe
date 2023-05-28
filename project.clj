@@ -10,8 +10,8 @@
                  [metosin/muuntaja "0.6.8"]
                  [metosin/reitit "0.7.0-alpha3"]
                  [com.github.seancorfield/next.jdbc "1.3.874"]
-                 [org.clojure/java.jdbc "0.7.12"]
-                 [mysql/mysql-connector-java "8.0.33"]
+                 ;; [org.clojure/java.jdbc "0.7.12"]
+                 ;; [mysql/mysql-connector-java "8.0.33"]
                  [org.postgresql/postgresql "42.6.0"]
                  [clj-http "3.12.3"]
                  [net.clojars.kelveden/ring-jwt "2.4.0"]
@@ -21,6 +21,7 @@
                  [camel-snake-kebab "0.4.3"]
                  [dev.gethop/payments.stripe "0.3.8"]
                  [com.stripe/stripe-java "22.20.0"]
+                 [philoskim/debux-stubs "0.8.3"]
                  ;; https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12
                  [org.slf4j/slf4j-log4j12 "2.0.7" :extension "pom"]]
 
@@ -29,7 +30,8 @@
   :profiles {:uberjar {:aot :all}
              :dev {:source-paths ["dev/src"]
                    :resource-paths ["dev/resources"]
-                   :dependencies [[ring/ring-mock "0.4.0"]
+                   :dependencies [[philoskim/debux "0.8.3"]
+                                  [ring/ring-mock "0.4.0"]
                                   [integrant/repl "0.3.2"]]}}
   :uberjar-name "playground.jar")
 

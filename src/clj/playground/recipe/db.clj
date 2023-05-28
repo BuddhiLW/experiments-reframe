@@ -34,7 +34,7 @@
 (defn update-recipe!
   [db recipe]
   (-> db
-      (sql/update! :recipe recipe (select-keys recipe [:recipe_id]))
+      (sql/update! :recipe recipe (select-keys recipe [:recipe-id]))
       :next.jdbc/update-count
       (pos?)))
 

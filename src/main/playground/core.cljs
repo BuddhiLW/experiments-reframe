@@ -11,7 +11,7 @@
    [re-frame.core :as rf]
    [reagent.dom]
    ;; [reagent.core :as r]
-   [playground.theme :refer [cheffy-theme theme]]
+   [playground.theme :refer [theme]]
 
    ;; -----------------------------------------
    ;;---- Bussiness logic for the front-end -------
@@ -45,6 +45,9 @@
    [playground.router :as router]
    [playground.recipes.events]
    [playground.recipes.subs]
+   ;--- upload-file ---
+   [playground.upload-file.views.upload-file-page :refer [upload-file-page]]
+   [playground.upload-file.events]
    ;--- stripe ---
    [playground.stripe.views.stripe-example :refer [stripe-page]]
    [playground.stripe.events]))
@@ -63,6 +66,7 @@
     :recipe            [recipe-page]
     :saved             [saved-page]
     :stripe            [stripe-page]
+    :upload-file       [upload-file-page]
     [recipes-page]))
 
 (defn- main []

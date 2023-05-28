@@ -1,21 +1,20 @@
 (ns playground.theme
   (:require
-   ["@mui/material/styles" :refer [createTheme
-                                   createMuiTheme]]
-   ["react-bootstrap" :as bt]))
+   ["@mui/material/styles" :refer [createTheme]]))
+   ;; ["react-bootstrap" :as bt]))
 
-(def cheffy-theme
-  [:<>
-   [:> bt/style
-    {:black "#243B53"
-     :primary "#27AB83"
-     :secondary "#F2F2F2"
-     :light "#F2F2F2"
-     :dark "#243B53"
-     :borderRadius "14px"
-     :borderRadiusSm "8px"
-     :borderRadiusLg "20px"
-     :modalHeaderBorderColor "white"}]])
+;; (def cheffy-theme
+;;   [:<>
+;;    [:> bt/style
+;;     {:black "#243B53"
+;;      :primary "#27AB83"
+;;      :secondary "#F2F2F2"
+;;      :light "#F2F2F2"
+;;      :dark "#243B53"
+;;      :borderRadius "14px"
+;;      :borderRadiusSm "8px"
+;;      :borderRadiusLg "20px"
+;;      :modalHeaderBorderColor "white"}]])
 
 (def theme (createTheme
             (clj->js
@@ -70,5 +69,5 @@
               :tertiary "#4433FF"}}})))
 
 (def cards (createTheme
-             #js {:title #js {:main "#3A3F3F"}
-                  :icon #js {:main "#ABCDEF"}}))
+            #js {:title #js {:main "#3A3F3F"}
+                 :icon #js {:main "#ABCDEF"}}))

@@ -40,5 +40,5 @@
         session (Session/create params)]
     (if session
       {:url (. session getUrl)
-       :status 303}
+       :status 302}
       nil)))

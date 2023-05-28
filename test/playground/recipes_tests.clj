@@ -4,6 +4,12 @@
    [muuntaja.core :as m]
    [playground.test-system :as test-system]))
 
+(def recipe-id (atom nil))
+(def recipe {:img "string-image!!"
+             :prep-time 36
+             :name "recipe name"
+             :public true})
+
 (t/deftest recipes-tests
   (t/testing "List recipes"
     (t/testing "with auth -- public and drafts"
@@ -18,6 +24,25 @@
         (t/is (vector? (:public body)))
         (t/is (nil? (:drafts body)))))))
 
-    ;; (t/testing "Without auth -- drafts")))
+(t/deftest recipes-tests
+  (t/testing "Create recipe"
+    (let [{:keys [status body]} (test-system/test-endpoint :post "/v1/recipes" {:auth true
+                                                                                :body recipe})]
+      (reset! recipe-id (:recipe-id body))
+      (t/is (= 204 status))))
 
-;; (m/decode "application/json" "{\"name\":\"string-name\",\"prep-time\":30,\"img\":\"string-img\"}")
+  (t/testing "Update recipe"
+    (let [{:keys [status body]} (test-system/test-endpoint :put (str "/v1/recipes/" @recipe-id)
+                                                           {:auth true
+                                                            :body (assoc recipe :public true)})]
+      (t/is (= 204 status))
+      (t/is (= true (:recipe/public body)))))
+
+  (t/testing "Delete recipe"))
+
+(comment
+  (assoc {:a 1} :b 2)
+  ;; (let [recipe]
+  (test-system/test-endpoint :put "/v1/recipes/103b7e7f-7928-4c40-8515-219baba85fcf" {:auth true
+                                                                                      :body recipe})
+  (test-system/test-endpoint :get "/v1/recipes" {:auth true}))

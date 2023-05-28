@@ -12,27 +12,24 @@
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5",
-    "postcss": "^8.4.16",
-    "shadow-cljs": "^2.20.2",
-    "tailwindcss": "^3.1.8"
+    "postcss": "^8.4.23",
+    "shadow-cljs": "^2.23.3",
+    "tailwindcss": "^3.3.2"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.8",
-    "@emotion/styled": "^11.10.8",
-    "@mui/base": "^5.0.0-alpha.127",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/base": "5.0.0-beta.2",
     "@mui/icons-material": "^5.11.16",
-    "@mui/joy": "^5.0.0-alpha.77",
-    "@mui/material": "^5.12.2",
-    "@mui/styles": "^5.12.0",
+    "@mui/material": "^5.13.2",
+    "@mui/styles": "^5.13.2",
     "@stripe/react-stripe-js": "^2.1.0",
     "@stripe/stripe-js": "^1.53.0",
     "dagre": "^0.8.5",
     "highlight.js": "11.5.1",
-    "qs": "^6.11.2",
-    "react": "^17",
-    "react-bootstrap": "^2.7.4",
-    "react-dom": "^17",
-    "react-flow-renderer": "^9.5.4",
-    "stripe": "^12.6.0"
+    "mui-file-input": "^2.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-flow-renderer": "^9.7.4"
   }
 }

@@ -8,7 +8,15 @@
 (defn authenticated
   []
   (let [active-page @(rf/subscribe [:active-page])
-        nav-items [{:id :saved
+        nav-items [{:id :stripe
+                    :name "Stripe"
+                    :href (router/path-for :stripe)
+                    :dispatch #(rf/dispatch [:set-active-nav :stripe])}
+                   {:id :upload-file
+                    :name "Upload File"
+                    :href (router/path-for :upload-file)
+                    :dispatch #(rf/dispatch [:set-active-nav :upload-file])}
+                   {:id :saved
                     :name "Saved"
                     :href (router/path-for :saved)
                     :dispatch #(rf/dispatch [:set-active-nav :saved])}
@@ -27,11 +35,7 @@
                    {:id :profile
                     :name "Profile"
                     :href (router/path-for :profile)
-                    :dispatch #(rf/dispatch [:set-active-nav :profile])}
-                   {:id :stripe
-                    :name "Stripe"
-                    :href (router/path-for :stripe)
-                    :dispatch #(rf/dispatch [:set-active-nav :stripe])}]]
+                    :dispatch #(rf/dispatch [:set-active-nav :profile])}]]
     [:<>
      [:> Box {:display "flex"
               :justify-content "flex-end"

@@ -10,5 +10,5 @@
                 :middleware [[mw/wrap-auth0]]}
      ["/create-checkout-session"
       {:post {:handler   (stripe/create-checkout-session! stripe-secret-key)
-              :responses {200 {:body {:stripe-key string?}}}
+              :responses {200 {:body map?}}
               :summary   "Stripe checkout session routing"}}]]))

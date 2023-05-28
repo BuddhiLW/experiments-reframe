@@ -18,14 +18,6 @@
                              (if (string? x)
                                x
                                (m/decode "application/json" x)))))))
-     ;; ;; (ppr/pprint request)
-     ;; (-> request
-     ;;     :body
-     ;;     (cond-> string? (update request :body)
-     ;;             map? (update request :body (partial m/decode "application/json")))))))
-     ;; ;; (cond-> (:body request)
-     ;; ;;        (= 400)) (update request :body (partial identity))
-     ;; ;;   (not= 400))  (update request :body (fn [data] (m/decode "application/json" data)))))
 
 (comment
   ;; (= (fn [data] (m/decode "application/json" data)) (partial m/decode "application/json"))
