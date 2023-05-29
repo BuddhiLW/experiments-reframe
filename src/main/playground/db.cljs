@@ -7,6 +7,7 @@
 (def initial-app-db {:auth    {:uid nil}
                      :errors  {}
                      :inboxes {}
+                     :files {:path nil}
                      :nav     {:active-page   :recipes
                                :active-nav    :recipes
                                :active-modal  nil

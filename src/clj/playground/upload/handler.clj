@@ -3,7 +3,8 @@
    [playground.upload.db :as filesystem]
    [clojure.java.io :as io]
    [ring.util.response :as rr]
-   [clojure.pprint :as pprint]))
+   [clojure.pprint :as pprint]
+   [clojure.string :as s]))
 
 ;; ------- request format: ----------
 ;;
@@ -20,11 +21,26 @@
 (defn upload-file!
   [db]
   (fn [request]
-    (let [pprint (pprint/pprint request)
-          file   (-> request :body :multipart :file)]
+    (let [pprint (do (pprint/pprint (-> request :params))
+                     (pprint/pprint (-> request :body)))
+          file   (or
+                  (-> request
+                      :params
+                      (get "file"))
+                  (-> request :params :multipart :file))]
       (if (instance? java.io.File (:tempfile file))
         (rr/response {:status 200
                       :body   {:message "File uploaded successfully"
                                :file    (filesystem/copy-to-local! file)}})
         (rr/response {:status 400 :body {:message "No file provided"}})))))
 
+(comment
+  (let [map {"file"
+             {:filename "pic-selected-230422-1317-54.png",
+              :content-type "image/png",
+              :size 69849}}]
+    (get map "file"))
+  (let [path "/home/buddhilw/PP/Clojure/cljs-reagent-template/resources/files/pic-selected-230422-1317-54.png"]
+    (-> path
+        (s/split #"resources/")
+        (second))))

@@ -48,6 +48,7 @@
    ;--- upload-file ---
    [playground.upload-file.views.upload-file-page :refer [upload-file-page]]
    [playground.upload-file.events]
+   [playground.upload-file.subs]
    ;--- stripe ---
    [playground.stripe.views.stripe-example :refer [stripe-page]]
    [playground.stripe.events]))
