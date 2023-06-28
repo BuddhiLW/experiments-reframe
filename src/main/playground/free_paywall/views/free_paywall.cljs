@@ -1,9 +1,8 @@
-(ns playground.upload-file.views.upload-file-page
+(ns playground.free-paywall.views.free-paywall
   (:require
    ["@mui/icons-material/UploadFile" :default UploadFileIcon]
    ["@mui/material" :refer [Box Button Card CardMedia colors Grid Input
                             Typography]]
-   [goog.dom :as gdom]
    [playground.components.modal :refer [modal]]
    [playground.components.page-nav :refer [page-nav]]
    [re-frame.core :as rf]))
@@ -68,16 +67,16 @@
                                  "../img/placeholder.jpg"))
                     :alt name}]]))
 
-(defn upload-file-page
-  []
+(defn free-paywall-page []
   (let [handle-change (fn [e]
                         (let [file (first (.-files (.-target e)))]
                           (rf/dispatch [:http/upload-file file])))]
 
     (fn []
-      (let [path @(rf/subscribe [:upload/latest-upload])]
+      (let [new-binding rf/subscribe
+            path @(new-binding [:upload/latest-upload])]
         [:<>
-         [page-nav {:center "Upload File Example"}]
+         [page-nav {:center "Read through pay-walls!"}]
          [:> Card {:sx {:width 400
                         :height 400
                         :margin "auto"}}
@@ -105,11 +104,3 @@
                                 :color "primary"
                                 :on-click #(rf/dispatch [:recipes/close-modal])}
                      "Close"]]}]]]]))))
-(comment
-  (let [el (gdom/getElement "input")
-        file (-> el
-                 (.-files)
-                 (aget 0))
-        form-data (doto (js/FormData.)
-                    (.append "file" file))]
-    (js/console.log form-data)))

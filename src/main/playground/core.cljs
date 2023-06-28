@@ -51,7 +51,10 @@
    [playground.upload-file.subs]
    ;--- stripe ---
    [playground.stripe.views.stripe-example :refer [stripe-page]]
-   [playground.stripe.events]))
+   [playground.stripe.events]
+   ;--- free-paywall
+   [playground.free-paywall.views.free-paywall :refer [free-paywall-page]]
+   [playground.free-paywall.events]))
 
 ;; ---------- END requires ---------
 (defn pages
@@ -68,6 +71,7 @@
     :saved             [saved-page]
     :stripe            [stripe-page]
     :upload-file       [upload-file-page]
+    :free-paywall      [free-paywall-page]
     [recipes-page]))
 
 (defn- main []

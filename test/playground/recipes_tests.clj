@@ -5,7 +5,7 @@
    [playground.test-system :as test-system]))
 
 (def recipe-id (atom nil))
-(def recipe {:img "string-image!!"
+(def recipe {:img "https://wallpaperaccess.com/full/2882747.jpg"
              :prep-time 36
              :name "recipe name"
              :public true})
@@ -26,10 +26,10 @@
 
 (t/deftest recipes-tests
   (t/testing "Create recipe"
-    (let [{:keys [status body]} (test-system/test-endpoint :post "/v1/recipes" {:auth true
-                                                                                :body recipe})]
+    (let [{:keys [status body]}
+          (test-system/test-endpoint :post "/v1/recipes" {:auth true :body recipe})]
       (reset! recipe-id (:recipe-id body))
-      (t/is (= 204 status))))
+      (t/is (= 201 status))))
 
   (t/testing "Update recipe"
     (let [{:keys [status body]} (test-system/test-endpoint :put (str "/v1/recipes/" @recipe-id)
@@ -38,7 +38,13 @@
       (t/is (= 204 status))
       (t/is (= true (:recipe/public body)))))
 
-  (t/testing "Delete recipe"))
+  (t/testing "Delete recipe"
+    (let [{:keys [status body]} (test-system/test-endpoint :delete (str "/v1/recipes/" @recipe-id)
+                                                           {:auth true})]
+      (t/is (= 204 status))
+      (t/is (= true (:recipe/public body))))))
+
+;; (recipes-tests)
 
 (comment
   (assoc {:a 1} :b 2)

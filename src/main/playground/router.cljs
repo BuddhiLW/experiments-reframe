@@ -14,7 +14,8 @@
                   "sign-up"       :sign-up
                   "log-in"        :log-in
                   "stripe"        :stripe
-                  "upload-file"   :upload-file}])
+                  "upload-file"   :upload-file
+                  "free-paywall"  :free-paywall}])
 
 (def history
   (let [dispatch #(rf/dispatch [:route-changed %])

@@ -9,6 +9,10 @@
   []
   (let [active-page @(rf/subscribe [:active-page])
         nav-items [{:id :stripe
+                    :name "Pay-wall"
+                    :href (router/path-for :free-paywall)
+                    :dispatch #(rf/dispatch [:set-active-nav :free-paywall])}
+                   {:id :stripe
                     :name "Stripe"
                     :href (router/path-for :stripe)
                     :dispatch #(rf/dispatch [:set-active-nav :stripe])}

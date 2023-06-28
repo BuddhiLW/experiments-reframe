@@ -27,7 +27,7 @@
        :put    {:handler    (recipe/update-recipe! db)
                 :parameters {:path {:recipe-id string?}
                              :body {:name string? :prep-time int? :public boolean? :img string?}}
-                :responses  {204 {:body nil?}}
+                :responses  {201 {:body nil?}}
                 :summary    "Update recipe"}
        :delete {:handler    (recipe/delete-recipe! db)
                 :parameters {:path {:recipe-id string?}}
