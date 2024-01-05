@@ -3,7 +3,7 @@
             [pushy.core :as pushy]
             [re-frame.core :as rf]))
 
-(def routes ["/" {""              :recipes
+(def routes ["/" {""              :become-a-chef
                   "become-a-chef" :become-a-chef
                   "saved/"        :saved
                   "recipes/"      {"" :recipes

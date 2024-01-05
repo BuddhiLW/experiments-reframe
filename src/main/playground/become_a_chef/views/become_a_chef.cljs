@@ -25,17 +25,28 @@
                 :display "flex"
                 :justify-content "center"
                 :align-items "center"}
-       [:> Card {:sx {:maxwidth 500
-                      :maxheight 500
+       #_[:iframe {:src "https://br.investing.com/commodities/us-coffee-c"
+                   :style {:border "0px #ffffff none"
+                           :name "myiFrame"
+                           :scrolling "no"
+                           :frameborder "1"
+                           :marginheight "0px"
+                           :marginwidth "0px"
+                           :height "400px"
+                           :width "600px"
+                           :allowfullscreen true}}]
+
+       ;; <iframe src="https://br.investing.com/commodities/us-coffee-c" style="border:0px #ffffff none;" name="myiFrame" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="400px" width="600px" allowfullscreen></iframe>
+       [:> Card {:sx {:max-width 700
+                      :max-height 700
                       :border-radius "100%"}
                  :class-name "rounded-full"
                  :variant "outlined"}
         [:> CardMedia {:component "img"
-                       :maxheight 500
-                       :maxwidth 500
                        :class-name "rounded-full"
-                       :image "https://res.cloudinary.com/schae/image/upload/f_auto,q_auto/v1546889699/cheffy/become-a-chef.jpg"
-                       :alt "become a chef"}]]]
+                       :image "https://s0.wp.com/wp-content/themes/pub/cortado/assets/images/foodiesfeed.com_holding-espresso-cup_web-1024x1024.jpg"
+                       :alt "Hand holding a cup of coffee"}]]]
+
       [:> Grid {:item true
                 :xs 6
                 :display "flex"

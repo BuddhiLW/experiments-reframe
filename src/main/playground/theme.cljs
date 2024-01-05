@@ -28,7 +28,7 @@
                 :dark "#2F3FFF"
                 :white "#FFFAFA"
                 :form "#F8F8FF"
-                :main-background "#EFEFEF"
+                :main-background "#c8c095ff" ;; #AA9F63
                 :borderRadius "20px"
                 :borderRadiusSm "10px"
                 :borderRadiusLg "18px"

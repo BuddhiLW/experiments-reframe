@@ -72,11 +72,11 @@
     :stripe            [stripe-page]
     :upload-file       [upload-file-page]
     :free-paywall      [free-paywall-page]
-    [recipes-page]))
+    [become-a-chef]))
 
 (defn- main []
   (let [active-page @(rf/subscribe [:active-page])]
-    [:div
+    [:<>
      [:> mui/CssBaseline]
      [:> mui/ThemeProvider {:theme theme}
       [:> mui/Grid {:background-color "primary.main-background"}
