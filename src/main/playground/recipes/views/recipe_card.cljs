@@ -7,8 +7,7 @@
    [playground.router :as router]
    [playground.theme :refer [cards]]))
 (defn recipe-card [recipe]
-  (let [{:recipe/keys [name favorite_count prep_time img recipe_id]} recipe
-        log (js/console.log name favorite_count prep_time img recipe_id)]
+  (let [{:recipe/keys [name favorite_count prep_time img recipe_id]} recipe]
     ^{:key recipe_id}
     [:> Grid {:px 2}
      [:> Paper {:pb 4
