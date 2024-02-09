@@ -44,10 +44,15 @@
        (associate-by key)))
 
 (def api-url "http://localhost:8666")
+(def go-api-url "http://localhost:8080")
 (defn endpoint
   "Concat any params to api-url separated by /"
   [& params]
   (str/join "/" (cons api-url params)))
+(defn go-endpoint
+  "Concat any params to api-url separated by /"
+  [& params]
+  (str/join "/" (cons go-api-url params)))
 ;; (endpoint "v1")
 
 (comment

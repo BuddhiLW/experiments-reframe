@@ -30,3 +30,31 @@
                 (get-in response [:body :file])
                 (s/split #"resources")
                 (second))))))
+
+(rf/reg-event-fx
+ :go-http/post-file
+ (fn [_ [_ file-form-data]]
+   {:http-xhrio {:method :post
+                 :uri (h/go-endpoint "upload")
+                 :body file-form-data
+                 :response-format (ajax/json-response-format {:keywords? true})
+                 :on-success [:success/file-upload-success]
+                 :on-failure [:error/file-upload-failure]}}))
+
+(rf/reg-event-fx
+ :go-http/get-files
+ (fn [_ _]
+   {:http-xhrio {:method :get
+                 :uri (h/go-endpoint "files")
+                 :response-format (ajax/json-response-format {:keywords? true})
+                 :on-success [:success/file-list-success]
+                 :on-failure [:error/file-list-failure]}}))
+
+(rf/reg-event-fx
+ :go-http/get-file
+ (fn [_ [_ file-name]]
+   {:http-xhrio {:method :get
+                 :uri (h/go-endpoint "file" (str "?name=" file-name))
+                 :response-format (ajax/json-response-format {:keywords? true})
+                 :on-success [:success/file-get-success]
+                 :on-failure [:error/file-get-failure]}}))

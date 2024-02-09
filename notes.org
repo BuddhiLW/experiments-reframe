@@ -51,3 +51,6 @@
                                       :name "string-name"
                                       :prep-time 30}))
 #+end_src
+* PDF upload with Golang and MySQL
+https://tutorialedge.net/golang/go-file-upload-tutorial/
+https://dev.to/harshmangalam/image-upload-using-golang-and-react-29n1
